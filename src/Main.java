@@ -1,12 +1,14 @@
 import cars.Car;
 import player.Player;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Main {
     static int numPlayers;
-    static ArrayList<Player> players = new ArrayList<Player>();
+    static ArrayList<Player> players = new ArrayList<>();
+    static ArrayList<Object> availableVehicles = new ArrayList<>();
     static Boolean winCondition = false;
 
     // Number of players
@@ -15,7 +17,7 @@ public class Main {
         System.out.println("Podaj liczbę graczy (conajmniej 1): ");
         try {
             numPlayers = playerScanner.nextByte();
-            if (numPlayers <= 0) {
+            if (numPlayers <= 0 || numPlayers > 8) {
                 getNumPlayers();
             }
         } catch (Exception error) {
@@ -32,20 +34,23 @@ public class Main {
         System.out.println("6. Historia transakcji");
     }
 
+    // Generate available cars
     static void generateCar() {
-        Car newCar = new Car();
+        while (availableVehicles.size() < 8) {
+            Car newCar = new Car();
+            availableVehicles.add(newCar);
+        }
     }
 
     public static void main(String[] args) {
-        Object[] availableVehicles;
-        Integer numMoves = 1;
+        Byte numMoves = 1;
         LinkedList<Object> transactionHistory;
 
         System.out.println("*** AAA AUTOHANDEL AAA ***");
 
-        // Get players' number
+        // Get number of players
         getNumPlayers();
-        System.out.println("Liczba graczy: " + numPlayers);
+        System.out.println("Liczba graczy (1 - 8): " + numPlayers);
 
         // Create players
         for (int i = 1; i <= numPlayers; i++ ) {
@@ -57,8 +62,15 @@ public class Main {
             System.out.println("Dodano gracza " + newPlayer.name);
         }
 
-        Player currentPlayer = players.get(0);
+        // Generate available cars
+        generateCar();
+        for (int i = 0; i <= availableVehicles.size() - 1; i++) {
+            Car currentCar = (Car) availableVehicles.get(i);
+            System.out.println("Samochód " + (i + 1) + ": " + currentCar.getColor());
+        }
 
+        // Begin game
+        Player currentPlayer = players.get(0);
         while (winCondition == false) {
 
             printMenu();

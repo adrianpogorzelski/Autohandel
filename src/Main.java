@@ -15,8 +15,8 @@ public class Main {
     }
 
     /** GET PLAYER INPUT **/
+    static Byte playerChoice = null;
     public static int getPlayerSelection(int numOptions) {
-        Byte playerChoice = null;
         Scanner playerInput = new Scanner(System.in);
         System.out.println("Twój ruch: ");
         try {
@@ -89,22 +89,63 @@ public class Main {
     }
 
     private static void showOwnedCars() {
-
+        System.out.println("---");
+        System.out.println("Posiadane pojazdy");
+        System.out.println("---");
+        System.out.println("1. Powrót");
+        switch (getPlayerSelection(1)) {
+            case 1:
+                gameOptions();
+                break;
+        }
     }
 
     private static void showCustomers() {
+        System.out.println("---");
+        System.out.println("Dostępni klienci");
+        System.out.println("---");
+        System.out.println("1. Powrót");
+        switch (getPlayerSelection(1)) {
+            case 1:
+                gameOptions();
+                break;
+        }
     }
 
     private static void buyAd() {
-
+        System.out.println("---");
+        System.out.println("Wykup reklamę");
+        System.out.println("---");
+        System.out.println("1. Powrót");
+        switch (getPlayerSelection(1)) {
+            case 1:
+                gameOptions();
+                break;
+        }
     }
 
     private static void showAccountBalance() {
-
+        System.out.println("---");
+        System.out.println("Stan konta");
+        System.out.println("---");
+        System.out.println("1. Powrót");
+        switch (getPlayerSelection(1)) {
+            case 1:
+                gameOptions();
+                break;
+        }
     }
 
     private static void showTransactionHistory() {
-
+        System.out.println("---");
+        System.out.println("Historia transakcji");
+        System.out.println("---");
+        System.out.println("1. Powrót");
+        switch (getPlayerSelection(1)) {
+            case 1:
+                gameOptions();
+                break;
+        }
     }
 
 

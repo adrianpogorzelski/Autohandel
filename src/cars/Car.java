@@ -1,34 +1,86 @@
 package cars;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class Car {
-    double value;
+    Integer value;
     String brand;
-    double mileage;
+    Integer mileage;
     String color;
     String segment;
-    Boolean workingSuspension;
     HashMap<String, Boolean> workingParts = new HashMap<>();
 
-    final public String[] brands = {"Alfa Romeo", "BMW", "Citroen", "Dacia", "Ford", "Honda", "Infiniti", "Jaguar", "Kia", "Lexus", "Mazda", "Nissan", "Opel", "Porsche", "Renault", "Skoda", "Toyota", "Volvo"};
+    // final public String[] brands = {"Alfa Romeo", "BMW", "Citroen", "Dacia", "Ford", "Honda", "Infiniti", "Jaguar", "Kia", "Lexus", "Mazda", "Nissan", "Opel", "Porsche", "Renault", "Skoda", "Toyota", "Volvo"};
+    final public String[] brands = {"Omega Romeo", "FLAT", "Luxus", "Poorshe", "Fiord", "Leopard", "FolkWagon"};
     final public String[] colors = {"Brązowy", "Czerwony", "Czarny", "Fioletowy", "Granatowy", "Niebieski", "Pomarańczowy", "Różowy", "Zielony", "Żółty"};
     final public String[] segments = {"Budget", "Standard", "Premium"};
 
-    public Car() {
-        this.brand = brands[(int) (Math.random() * brands.length)];
-        this.mileage = Math.random() * 100000;
-        this.color = colors[(int) (Math.random() * colors.length)];
-        this.value = Math.random() * 100000;
-        this.segment = segments[(int) (Math.random() * segments.length)];
-        this.workingSuspension = Math.random() * 2 > 0.5;
-        this.workingParts.put("brakes", Math.random() * 2 > 0.1);
-        this.workingParts.put("engine", Math.random() * 2 > 0.1);
-        this.workingParts.put("body", Math.random() * 2 > 0.1);
-        this.workingParts.put("gearbox", Math.random() * 2 > 0.1);
+    static Integer randomValue(Integer limit) {
+        Random random = new Random();
+        return random.nextInt(limit);
     }
 
+    public Car() {
+        this.value = randomValue(100000);
+        this.brand = brands[(int) (Math.random() * brands.length)];
+        this.mileage = randomValue(300000);
+        this.color = colors[(int) (Math.random() * colors.length)];
+        this.segment = segments[(int) (Math.random() * segments.length)];
+        this.workingParts.put("brakes", Math.random() > 0.8);
+        this.workingParts.put("suspension", Math.random() > 0.8);
+        this.workingParts.put("engine", Math.random() > 0.8);
+        this.workingParts.put("body", Math.random() > 0.8);
+        this.workingParts.put("gearbox", Math.random() > 0.8);
+    }
+
+    // Getters
+    public double getValue() {
+        return value;
+    }
     public String getColor() {
         return color;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getSegment() {
+        return segment;
+    }
+
+    public double getMileage() {
+        return mileage;
+    }
+
+    public String checkParts() {
+        String returnString = "";
+        for (String i : workingParts.keySet()) {
+            if (!workingParts.containsValue(true)) {
+                returnString = " Brak";
+            } else {
+                if (workingParts.get(i)) {
+                    switch (i) {
+                        case "brakes":
+                            returnString += " - hamulce";
+                            break;
+                        case "suspension":
+                            returnString += " - zawieszenie";
+                            break;
+                        case "engine":
+                            returnString += " - silnik";
+                            break;
+                        case "body":
+                            returnString += " - karoseria";
+                            break;
+                        case "gearbox":
+                            returnString += " - skrzynia biegów";
+                            break;
+                    }
+                }
+            }
+        }
+        return returnString;
     }
 }

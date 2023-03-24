@@ -1,6 +1,40 @@
 package customer;
 
-public class Customer {
-    static String[] names = {"Alina", "Bogdan", "Cecylia", "Dariusz", "Eliza", "Franciszek", "Genowefa", ""};
+import cars.Car;
 
+import java.util.ArrayList;
+
+public class Customer {
+    public String name;
+    public Integer budget;
+    public ArrayList<String> favoriteBrands;
+    Boolean canBuyDamagedCar;
+    Boolean canBuyDamagedSuspension;
+
+    static String[] names = {"Alina", "Bogdan", "Cecylia", "Dariusz", "Eliza", "Franciszek", "Genowefa", "Henryk", "Irena", "Janusz", "Katarzyna", "Ludwik", "Maria", "Norbert", "Piotr", "Renata", "Sławomir", "Tadeusz", "Urszula", "Włodzimierz", "Zenon"};
+
+    public Customer() {
+        this.name = names[(int) (Math.random() * names.length)];
+        this.budget = (int) (Math.random() * 200000);
+        this.favoriteBrands = new ArrayList<>();
+        this.favoriteBrands.add(Car.brands[(int) (Math.random() * Car.brands.length)]);
+        this.favoriteBrands.add(Car.brands[(int) (Math.random() * Car.brands.length)]);
+        while (this.favoriteBrands.get(0).equals(this.favoriteBrands.get(1))) {
+            this.favoriteBrands.remove(1);
+            this.favoriteBrands.add(Car.brands[(int) (Math.random() * Car.brands.length)]);
+        }
+        this.canBuyDamagedCar = Math.random() * 100 < 0.05;
+        this.canBuyDamagedSuspension = Math.random() * 100 < 0.2;
+    }
+
+    public void introduce() {
+        System.out.println(this.name + ", poszukuje " + this.favoriteBrands.get(0) + " lub " + this.favoriteBrands.get(1));
+        System.out.println("Dysponuje budżetem " + this.budget + "zł");
+        if (this.canBuyDamagedCar) {
+            System.out.println("Może kupić niesprawny pojazd");
+        }
+        if (this.canBuyDamagedSuspension) {
+            System.out.println("Akceptuje uszkodzone zawieszenie");
+        }
+    }
 }

@@ -1,16 +1,26 @@
 import cars.Car;
+import customer.Customer;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     static ArrayList<Object> availableVehicles = new ArrayList<>();
+    static ArrayList<Customer> availableCustomers = new ArrayList<>();
 
     /** AVAILABLE CARS GENERATOR **/
     static void generateCar() {
         while (availableVehicles.size() < 12) {
             Car newCar = new Car();
             availableVehicles.add(newCar);
+        }
+    }
+
+    /** CUSTOMERS GENERATOR **/
+    static void generateCustomer(int n) {
+        for (int i = 0; i < n; i++) {
+            Customer newCustomer = new Customer();
+            availableCustomers.add(newCustomer);
         }
     }
 
@@ -42,24 +52,12 @@ public class Main {
         System.out.println("6. Historia transakcji");
         System.out.println("---");
         switch (getPlayerSelection(6)) {
-            case 1:
-                showAvailableCars();
-                break;
-            case 2:
-                showOwnedCars();
-                break;
-            case 3:
-                showCustomers();
-                break;
-            case 4:
-                buyAd();
-                break;
-            case 5:
-                showAccountBalance();
-                break;
-            case 6:
-                showTransactionHistory();
-                break;
+            case 1 -> showAvailableCars();
+            case 2 -> showOwnedCars();
+            case 3 -> showCustomers();
+            case 4 -> buyAd();
+            case 5 -> showAccountBalance();
+            case 6 -> showTransactionHistory();
         }
     }
 
@@ -82,9 +80,7 @@ public class Main {
         printAvailableCars();
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
-            case 1:
-                gameOptions();
-                break;
+            case 1 -> gameOptions();
         }
     }
 
@@ -101,8 +97,15 @@ public class Main {
     }
 
     private static void showCustomers() {
-        System.out.println("---");
+        System.out.println("***");
         System.out.println("Dostępni klienci");
+        System.out.println("---");
+        for (int i = 0; i < availableCustomers.size(); i++) {
+            Customer currentCustomer = availableCustomers.get(i);
+            System.out.println("Klient " + (i + 1));
+            currentCustomer.introduce();
+            System.out.println("---");
+        }
         System.out.println("---");
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
@@ -113,7 +116,7 @@ public class Main {
     }
 
     private static void buyAd() {
-        System.out.println("---");
+        System.out.println("***");
         System.out.println("Wykup reklamę");
         System.out.println("---");
         System.out.println("1. Powrót");
@@ -178,11 +181,12 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        /** GAME SETUP **/
+        /* GAME SETUP */
         // Generate available cars
         generateCar();
+        generateCustomer(5);
 
-        /** GAME **/
+        /* GAME */
         System.out.println("*** AAA AUTOHANDEL AAA ***");
         gameOptions();
     }

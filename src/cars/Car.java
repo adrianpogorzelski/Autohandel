@@ -12,7 +12,7 @@ public class Car {
     HashMap<String, Boolean> workingParts = new HashMap<>();
 
     // final public String[] brands = {"Alfa Romeo", "BMW", "Citroen", "Dacia", "Ford", "Honda", "Infiniti", "Jaguar", "Kia", "Lexus", "Mazda", "Nissan", "Opel", "Porsche", "Renault", "Skoda", "Toyota", "Volvo"};
-    final public String[] brands = {"Omega Romeo", "FLAT", "Luxus", "Poorshe", "Fiord", "Leopard", "FolkWagon"};
+    static final public String[] brands = {"Omega Romeo", "FLAT", "Luxus", "Poorshe", "Fiord", "Leopard", "FolkWagon"};
     final public String[] colors = {"Brązowy", "Czerwony", "Czarny", "Fioletowy", "Granatowy", "Niebieski", "Pomarańczowy", "Różowy", "Zielony", "Żółty"};
     final public String[] segments = {"Budget", "Standard", "Premium"};
 
@@ -55,32 +55,22 @@ public class Car {
     }
 
     public String checkParts() {
-        String returnString = "";
+        StringBuilder returnString = new StringBuilder();
         for (String i : workingParts.keySet()) {
             if (!workingParts.containsValue(true)) {
-                returnString = " Brak";
+                returnString = new StringBuilder(" Brak");
             } else {
                 if (workingParts.get(i)) {
                     switch (i) {
-                        case "brakes":
-                            returnString += " - hamulce";
-                            break;
-                        case "suspension":
-                            returnString += " - zawieszenie";
-                            break;
-                        case "engine":
-                            returnString += " - silnik";
-                            break;
-                        case "body":
-                            returnString += " - karoseria";
-                            break;
-                        case "gearbox":
-                            returnString += " - skrzynia biegów";
-                            break;
+                        case "brakes" -> returnString.append(" - hamulce");
+                        case "suspension" -> returnString.append(" - zawieszenie");
+                        case "engine" -> returnString.append(" - silnik");
+                        case "body" -> returnString.append(" - karoseria");
+                        case "gearbox" -> returnString.append(" - skrzynia biegów");
                     }
                 }
             }
         }
-        return returnString;
+        return returnString.toString();
     }
 }

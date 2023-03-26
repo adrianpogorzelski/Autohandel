@@ -7,17 +7,16 @@ import player.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static player.Player.ownedCars;
-
 public class Main {
-    static ArrayList<Object> availableVehicles = new ArrayList<>();
+    static ArrayList<Vehicle> availableVehicles = new ArrayList<>();
     static ArrayList<Customer> availableCustomers = new ArrayList<>();
     static int numPlayers;
     static ArrayList<Player> players = new ArrayList<>();
     static Player currentPlayer;
+    static Integer round = 1;
 
     /** AVAILABLE CARS GENERATOR **/
-    static void generateCar() {
+    static void generateVehicle() {
         while (availableVehicles.size() < 12) {
             if (Math.random() < 0.6) {
                 Car newCar = new Car();
@@ -56,6 +55,7 @@ public class Main {
     /** GAME MENU **/
     // Show options
     public static void gameOptions() {
+        System.out.println("Runda " + round);
         System.out.println("---");
         System.out.println("1. Przejrzyj pojazdy do kupienia");
         System.out.println("2. Przejrzyj posiadane pojazdy");
@@ -78,7 +78,35 @@ public class Main {
     // Print available car list
     static void printAvailableCars() {
         for (int i = 0; i <= availableVehicles.size() - 1; i++) {
-            ((Vehicle) availableVehicles.get(i)).getVehicleData();
+            System.out.println("Pojazd " + (i + 1));
+            (availableVehicles.get(i)).getVehicleData();
+        }
+    }
+
+    /** BUY A VEHICLE **/
+    static void buyVehicle() {
+        Vehicle vehicleToBuy;
+        Scanner playerScanner = new Scanner(System.in);
+        System.out.println("Podaj numer pojazdu do kupienia (1 - 12): ");
+        try {
+            int vehicleNumber = playerScanner.nextByte();
+            if (vehicleNumber <= 0 || vehicleNumber > 12) {
+                buyVehicle();
+            }
+            vehicleToBuy = availableVehicles.get(vehicleNumber - 1);
+            if (currentPlayer.money < vehicleToBuy.value) {
+                System.out.println("Brak wystarczającej ilości gotówki!");
+                showAvailableCars();
+            } else {
+                currentPlayer.ownedVehicles.add(vehicleToBuy);
+                currentPlayer.money -= vehicleToBuy.value;
+                availableVehicles.remove(vehicleToBuy);
+                generateVehicle();
+                System.out.println("Kupiono " + vehicleToBuy.color + " " + vehicleToBuy.brand + " " + vehicleToBuy.segment + " za " + vehicleToBuy.value + "zł");
+                endTurn();
+            }
+        } catch (Exception e) {
+            buyVehicle();
         }
     }
 
@@ -88,8 +116,10 @@ public class Main {
         System.out.println("---");
         printAvailableCars();
         System.out.println("1. Powrót");
-        switch (getPlayerSelection(1)) {
+        System.out.println("2. Kup pojazd");
+        switch (getPlayerSelection(2)) {
             case 1 -> gameOptions();
+            case 2 -> buyVehicle();
         }
     }
 
@@ -97,9 +127,10 @@ public class Main {
         System.out.println("---");
         System.out.println("Posiadane pojazdy");
         System.out.println("---");
-        if (ownedCars.size() > 0) {
-            for (Object ownedCar : ownedCars) {
-                ((Vehicle) ownedCar).getVehicleData();
+        if (currentPlayer.ownedVehicles.size() > 0) {
+            for (int i = 0; i < currentPlayer.ownedVehicles.size(); i++) {
+                System.out.println("Pojazd " + (i + 1));
+                currentPlayer.ownedVehicles.get(i).getVehicleData();
             }
         } else {
             System.out.println("Brak posiadanych pojazdów");
@@ -141,6 +172,7 @@ public class Main {
     private static void showAccountBalance() {
         System.out.println("---");
         System.out.println("Stan konta");
+        System.out.println(currentPlayer.money + "zł");
         System.out.println("---");
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
@@ -172,13 +204,26 @@ public class Main {
         }
     }
 
+    static void endTurn() {
+        int playerIndex = players.indexOf(currentPlayer);
+        if (players.size() >= 2) {
+            // if last player, start again, and make this a new round
+            if (playerIndex == players.size() - 1) {
+                currentPlayer = players.get(0);
+            } else {
+                currentPlayer = players.get(playerIndex + 1);
+            }
+        }
+        gameOptions();
+    }
+
     /**** !!!!!!!!! GAME !!!!!!!!! ****/
     public static void main(String[] args) {
         System.out.println("*** AAA AUTOHANDEL ***");
 
         /** GAME SETUP **/
         // Generate available cars
-        generateCar();
+        generateVehicle();
 
         // Generate customers
         generateCustomer(5);
@@ -188,7 +233,7 @@ public class Main {
         System.out.println("Liczba graczy: " + numPlayers);
 
         //// Create players
-        for (int i = 1; i <= numPlayers; i++ ) {
+        for (int i = 1; i <= numPlayers; i++) {
             Scanner newPlayerInput = new Scanner(System.in);
             System.out.println("Podaj imię gracza " + i + ":");
             String newPlayerName = newPlayerInput.nextLine();

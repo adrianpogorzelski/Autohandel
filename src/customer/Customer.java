@@ -1,6 +1,5 @@
 package customer;
-
-import cars.Car;
+import cars.Vehicle;
 
 import java.util.ArrayList;
 
@@ -19,11 +18,11 @@ public class Customer {
         this.name = names[(int) (Math.random() * names.length)];
         this.budget = (int) (Math.random() * 200000);
         this.favoriteBrands = new ArrayList<>();
-        this.favoriteBrands.add(Car.brands[(int) (Math.random() * Car.brands.length)]);
-        this.favoriteBrands.add(Car.brands[(int) (Math.random() * Car.brands.length)]);
+        this.favoriteBrands.add(Vehicle.brands[(int) (Math.random() * Vehicle.brands.length)]);
+        this.favoriteBrands.add(Vehicle.brands[(int) (Math.random() * Vehicle.brands.length)]);
         while (this.favoriteBrands.get(0).equals(this.favoriteBrands.get(1))) {
             this.favoriteBrands.remove(1);
-            this.favoriteBrands.add(Car.brands[(int) (Math.random() * Car.brands.length)]);
+            this.favoriteBrands.add(Vehicle.brands[(int) (Math.random() * Vehicle.brands.length)]);
         }
         this.canBuyDamagedCar = Math.random() * 100 < 0.05;
         this.canBuyDamagedSuspension = Math.random() * 100 < 0.2;

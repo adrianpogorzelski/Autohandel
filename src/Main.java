@@ -67,9 +67,9 @@ public class Main {
     static void printAvailableCars() {
         for (int i = 0; i <= availableVehicles.size() - 1; i++) {
             Car currentCar = (Car) availableVehicles.get(i);
-            System.out.println("Samochód " + (i + 1) + ": " + currentCar.getColor() + " " + currentCar.getBrand() + " " + currentCar.getSegment() + ", przebieg " + (int) currentCar.getMileage() + "km");
+            System.out.println("Samochód " + (i + 1) + ": " + currentCar.color + " " + currentCar.brand + " " + currentCar.segment + ", przebieg " + currentCar.mileage + "km");
             System.out.println("Uszkodzone elementy:" + currentCar.checkParts());
-            System.out.println("Cena: " + (int) currentCar.getValue() + "zł");
+            System.out.println("Cena: " + currentCar.value + "zł");
             System.out.println("---");
         }
     }

@@ -16,6 +16,7 @@ public abstract class Vehicle {
     final public String[] colors = {"Brązowy", "Czerwony", "Czarny", "Fioletowy", "Granatowy", "Niebieski", "Pomarańczowy", "Różowy", "Zielony", "Żółty"};
     final public static String[] segments = {"Budget", "Standard", "Premium"};
 
+    /** CONSTRUCTOR **/
     public Vehicle () {
         type = type;
         value = generateValue();
@@ -30,6 +31,7 @@ public abstract class Vehicle {
         workingParts.put("gearbox", Math.random() > 0.8);
     }
 
+    /** RANDOM CAR VALUE GENERATOR **/
     public Integer generateValue() {
         Random random = new Random();
         int segmentMultiplier = 1;
@@ -41,11 +43,13 @@ public abstract class Vehicle {
         return 10000 + random.nextInt(30000) * segmentMultiplier * (1 - this.mileage / 300000);
     }
 
+    /** RANDOM MILEAGE GENERATOR **/
     public Integer generateMileage() {
         Random random = new Random();
         return random.nextInt(300000);
     }
 
+    /** RETURN DESCRIPTIONS OF DAMAGED PARTS **/
     public String checkParts() {
         StringBuilder returnString = new StringBuilder();
         for (String i : workingParts.keySet()) {
@@ -64,5 +68,15 @@ public abstract class Vehicle {
             }
         }
         return returnString.toString();
+    }
+
+    public void getVehicleData() {
+        System.out.println(color + " " + type + " marki " + brand + " " + segment + ", przebieg " + mileage + "km");
+        if (this instanceof Truck) {
+            System.out.println("Pojemność: " + ((Truck) this).cargoSpace + "m3");
+        }
+        System.out.println("Uszkodzone elementy:" + checkParts());
+        System.out.println("Cena: " + value + "zł");
+        System.out.println("---");
     }
 }

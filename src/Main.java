@@ -7,9 +7,13 @@ import player.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static player.Player.ownedCars;
+
 public class Main {
     static ArrayList<Object> availableVehicles = new ArrayList<>();
     static ArrayList<Customer> availableCustomers = new ArrayList<>();
+    static int numPlayers;
+    static ArrayList<Player> players = new ArrayList<>();
 
     /** AVAILABLE CARS GENERATOR **/
     static void generateCar() {
@@ -73,11 +77,16 @@ public class Main {
     // Print available car list
     static void printAvailableCars() {
         for (int i = 0; i <= availableVehicles.size() - 1; i++) {
+            ((Vehicle) availableVehicles.get(i)).getVehicleData();
+        /*for (int i = 0; i <= availableVehicles.size() - 1; i++) {
             Vehicle currentCar = (Vehicle) availableVehicles.get(i);
             System.out.println("Pojazd " + (i + 1) + ": " + currentCar.color + " " + currentCar.type + " marki " + currentCar.brand + " " + currentCar.segment + ", przebieg " + currentCar.mileage + "km");
+            if (currentCar instanceof Truck) {
+                System.out.println("Pojemność: " + ((Truck) currentCar).cargoSpace + "m3");
+            }
             System.out.println("Uszkodzone elementy:" + currentCar.checkParts());
             System.out.println("Cena: " + currentCar.value + "zł");
-            System.out.println("---");
+            System.out.println("---");*/
         }
     }
 
@@ -96,9 +105,9 @@ public class Main {
         System.out.println("---");
         System.out.println("Posiadane pojazdy");
         System.out.println("---");
-        if (Player.ownedCars != null) {
-            for (int i = 0; i < Player.ownedCars.size(); i++) {
-                System.out.println(Player.ownedCars.get(i));
+        if (ownedCars != null) {
+            for (Object ownedCar : ownedCars) {
+                ((Vehicle) ownedCar).getVehicleData();
             }
         } else {
             System.out.println("Brak posiadanych pojazdów");
@@ -159,10 +168,10 @@ public class Main {
 
 
 /*
-    static int numPlayers;
+    ;
 */
 /*
-    static ArrayList<Player> players = new ArrayList<>();
+
 */
 /*
     static Boolean winCondition = false;

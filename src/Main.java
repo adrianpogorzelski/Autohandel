@@ -14,6 +14,7 @@ public class Main {
     static ArrayList<Customer> availableCustomers = new ArrayList<>();
     static int numPlayers;
     static ArrayList<Player> players = new ArrayList<>();
+    static Player currentPlayer;
 
     /** AVAILABLE CARS GENERATOR **/
     static void generateCar() {
@@ -40,7 +41,7 @@ public class Main {
     static Byte playerChoice = null;
     public static int getPlayerSelection(int numOptions) {
         Scanner playerInput = new Scanner(System.in);
-        System.out.println("Twój ruch: ");
+        System.out.println("Ruch gracza " + currentPlayer.name + ": ");
         try {
             playerChoice = playerInput.nextByte();
             if (playerChoice <= 0 || playerChoice > numOptions) {
@@ -78,15 +79,6 @@ public class Main {
     static void printAvailableCars() {
         for (int i = 0; i <= availableVehicles.size() - 1; i++) {
             ((Vehicle) availableVehicles.get(i)).getVehicleData();
-        /*for (int i = 0; i <= availableVehicles.size() - 1; i++) {
-            Vehicle currentCar = (Vehicle) availableVehicles.get(i);
-            System.out.println("Pojazd " + (i + 1) + ": " + currentCar.color + " " + currentCar.type + " marki " + currentCar.brand + " " + currentCar.segment + ", przebieg " + currentCar.mileage + "km");
-            if (currentCar instanceof Truck) {
-                System.out.println("Pojemność: " + ((Truck) currentCar).cargoSpace + "m3");
-            }
-            System.out.println("Uszkodzone elementy:" + currentCar.checkParts());
-            System.out.println("Cena: " + currentCar.value + "zł");
-            System.out.println("---");*/
         }
     }
 
@@ -105,7 +97,7 @@ public class Main {
         System.out.println("---");
         System.out.println("Posiadane pojazdy");
         System.out.println("---");
-        if (ownedCars != null) {
+        if (ownedCars.size() > 0) {
             for (Object ownedCar : ownedCars) {
                 ((Vehicle) ownedCar).getVehicleData();
             }
@@ -166,20 +158,7 @@ public class Main {
         }
     }
 
-
-/*
-    ;
-*/
-/*
-
-*/
-/*
-    static Boolean winCondition = false;
-*/
-
-    /*
-
-    // Number of players
+    /** DEFINE NUMBER OF PLAYERS **/
     public static void getNumPlayers() {
         Scanner playerScanner = new Scanner(System.in);
         System.out.println("Podaj liczbę graczy (1 - 8): ");
@@ -193,29 +172,22 @@ public class Main {
         }
     }
 
-     */
-
+    /**** !!!!!!!!! GAME !!!!!!!!! ****/
     public static void main(String[] args) {
-        /* GAME SETUP */
+        System.out.println("*** AAA AUTOHANDEL ***");
+
+        /** GAME SETUP **/
         // Generate available cars
         generateCar();
+
+        // Generate customers
         generateCustomer(5);
 
-        /* GAME */
-        System.out.println("*** AAA AUTOHANDEL AAA ***");
-        gameOptions();
-    }
-}
-        // Byte numMoves = 1;
-        // LinkedList<Object> transactionHistory;
-
-
-
-       /* // Get number of players
+        // Generate players
         getNumPlayers();
         System.out.println("Liczba graczy: " + numPlayers);
 
-        // Create players
+        //// Create players
         for (int i = 1; i <= numPlayers; i++ ) {
             Scanner newPlayerInput = new Scanner(System.in);
             System.out.println("Podaj imię gracza " + i + ":");
@@ -223,7 +195,16 @@ public class Main {
             Player newPlayer = new Player(newPlayerName);
             players.add(newPlayer);
             System.out.println("Dodano gracza " + newPlayer.name);
-        }*/
+        }
+        currentPlayer = players.get(0);
+
+        /** GAME START **/
+        gameOptions();
+    }
+}
+        // Byte numMoves = 1;
+        // LinkedList<Object> transactionHistory;
+
 
 
 

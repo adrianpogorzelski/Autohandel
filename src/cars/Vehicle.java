@@ -70,6 +70,7 @@ public abstract class Vehicle {
         return returnString.toString();
     }
 
+    /** PRINT VEHICLE DETAILS **/
     public void getVehicleData() {
         System.out.println(color + " " + type + " marki " + brand + " " + segment + ", przebieg " + mileage + "km");
         if (this instanceof Truck) {

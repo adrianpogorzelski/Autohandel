@@ -4,23 +4,38 @@ import java.util.HashMap;
 import java.util.Random;
 
 public abstract class Vehicle {
+    public String type;
     public Integer value;
     public String brand;
-    public Integer mileage;
+    public Integer mileage = generateMileage();
     public String color;
-    public String segment;
-    public HashMap<String, Boolean> workingParts;
+    public String segment = segments[(int) (Math.random() * segments.length)];
+    public HashMap<String, Boolean> workingParts = new HashMap<>();
 
     static final public String[] brands = {"Omega Romeo", "FLAT", "Luxus", "Poorshe", "Fiord", "Leopard", "FolkWagon"};
     final public String[] colors = {"Brązowy", "Czerwony", "Czarny", "Fioletowy", "Granatowy", "Niebieski", "Pomarańczowy", "Różowy", "Zielony", "Żółty"};
-    final public String[] segments = {"Budget", "Standard", "Premium"};
+    final public static String[] segments = {"Budget", "Standard", "Premium"};
+
+    public Vehicle () {
+        type = type;
+        value = generateValue();
+        brand = brands[(int) (Math.random() * brands.length)];
+        mileage = mileage;
+        color = colors[(int) (Math.random() * colors.length)];
+        segment = segment;
+        workingParts.put("brakes", Math.random() > 0.8);
+        workingParts.put("suspension", Math.random() > 0.8);
+        workingParts.put("engine", Math.random() > 0.8);
+        workingParts.put("body", Math.random() > 0.8);
+        workingParts.put("gearbox", Math.random() > 0.8);
+    }
 
     public Integer generateValue() {
         Random random = new Random();
         int segmentMultiplier = 1;
-        if (this.segment.equals("Premium")) {
+        if (segment.equals("Premium")) {
             segmentMultiplier = 3;
-        } else if (this.segment.equals("Standard")) {
+        } else if (segment.equals("Standard")) {
             segmentMultiplier = 2;
         }
         return 10000 + random.nextInt(30000) * segmentMultiplier * (1 - this.mileage / 300000);
@@ -50,6 +65,4 @@ public abstract class Vehicle {
         }
         return returnString.toString();
     }
-
-
 }

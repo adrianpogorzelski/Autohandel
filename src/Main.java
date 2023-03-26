@@ -1,4 +1,6 @@
 import cars.Car;
+import cars.Truck;
+import cars.Vehicle;
 import customer.Customer;
 import player.Player;
 
@@ -12,8 +14,13 @@ public class Main {
     /** AVAILABLE CARS GENERATOR **/
     static void generateCar() {
         while (availableVehicles.size() < 12) {
-            Car newCar = new Car();
-            availableVehicles.add(newCar);
+            if (Math.random() < 0.6) {
+                Car newCar = new Car();
+                availableVehicles.add(newCar);
+            } else {
+                Truck newTruck = new Truck();
+                availableVehicles.add(newTruck);
+            }
         }
     }
 
@@ -66,8 +73,8 @@ public class Main {
     // Print available car list
     static void printAvailableCars() {
         for (int i = 0; i <= availableVehicles.size() - 1; i++) {
-            Car currentCar = (Car) availableVehicles.get(i);
-            System.out.println("Samochód " + (i + 1) + ": " + currentCar.color + " " + currentCar.brand + " " + currentCar.segment + ", przebieg " + currentCar.mileage + "km");
+            Vehicle currentCar = (Vehicle) availableVehicles.get(i);
+            System.out.println("Pojazd " + (i + 1) + ": " + currentCar.color + " " + currentCar.type + " marki " + currentCar.brand + " " + currentCar.segment + ", przebieg " + currentCar.mileage + "km");
             System.out.println("Uszkodzone elementy:" + currentCar.checkParts());
             System.out.println("Cena: " + currentCar.value + "zł");
             System.out.println("---");

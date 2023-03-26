@@ -1,5 +1,6 @@
 import cars.Car;
 import customer.Customer;
+import player.Player;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -88,11 +89,17 @@ public class Main {
         System.out.println("---");
         System.out.println("Posiadane pojazdy");
         System.out.println("---");
+        if (Player.ownedCars != null) {
+            for (int i = 0; i < Player.ownedCars.size(); i++) {
+                System.out.println(Player.ownedCars.get(i));
+            }
+        } else {
+            System.out.println("Brak posiadanych pojazdów");
+        }
+        System.out.println("---");
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
-            case 1:
-                gameOptions();
-                break;
+            case 1 -> gameOptions();
         }
     }
 
@@ -109,9 +116,7 @@ public class Main {
         System.out.println("---");
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
-            case 1:
-                gameOptions();
-                break;
+            case 1 -> gameOptions();
         }
     }
 
@@ -121,9 +126,7 @@ public class Main {
         System.out.println("---");
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
-            case 1:
-                gameOptions();
-                break;
+            case 1 -> gameOptions();
         }
     }
 
@@ -133,9 +136,7 @@ public class Main {
         System.out.println("---");
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
-            case 1:
-                gameOptions();
-                break;
+            case 1 -> gameOptions();
         }
     }
 
@@ -145,9 +146,7 @@ public class Main {
         System.out.println("---");
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
-            case 1:
-                gameOptions();
-                break;
+            case 1 -> gameOptions();
         }
     }
 

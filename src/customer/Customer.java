@@ -10,8 +10,10 @@ public class Customer {
     public ArrayList<String> favoriteBrands;
     Boolean canBuyDamagedCar;
     Boolean canBuyDamagedSuspension;
+    String interestedIn;
 
     static String[] names = {"Alina", "Bogdan", "Cecylia", "Dariusz", "Eliza", "Franciszek", "Genowefa", "Henryk", "Irena", "Janusz", "Katarzyna", "Ludwik", "Maria", "Norbert", "Piotr", "Renata", "Sławomir", "Tadeusz", "Urszula", "Włodzimierz", "Zenon"};
+    String[] vehicleTypes = {"samochód osobowy", "samochód dostawczy"};
 
     public Customer() {
         this.name = names[(int) (Math.random() * names.length)];
@@ -25,10 +27,11 @@ public class Customer {
         }
         this.canBuyDamagedCar = Math.random() * 100 < 0.05;
         this.canBuyDamagedSuspension = Math.random() * 100 < 0.2;
+        this.interestedIn = vehicleTypes[(int) (Math.random() * vehicleTypes.length)];
     }
 
     public void introduce() {
-        System.out.println(this.name + ", poszukuje " + this.favoriteBrands.get(0) + " lub " + this.favoriteBrands.get(1));
+        System.out.println(this.name + ", poszukuje " + this.interestedIn + " marki " + this.favoriteBrands.get(0) + " lub " + this.favoriteBrands.get(1));
         System.out.println("Dysponuje budżetem " + this.budget + "zł");
         if (this.canBuyDamagedCar) {
             System.out.println("Może kupić niesprawny pojazd");

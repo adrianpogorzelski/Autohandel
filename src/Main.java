@@ -90,9 +90,11 @@ public class Main {
         System.out.println("Podaj numer pojazdu do kupienia (1 - 12): ");
         try {
             int vehicleNumber = playerScanner.nextByte();
+            // Number out of range
             if (vehicleNumber <= 0 || vehicleNumber > 12) {
                 buyVehicle();
             }
+            // Number in range
             vehicleToBuy = availableVehicles.get(vehicleNumber - 1);
             if (currentPlayer.money < vehicleToBuy.value) {
                 System.out.println("Brak wystarczającej ilości gotówki!");
@@ -102,7 +104,9 @@ public class Main {
                 currentPlayer.money -= vehicleToBuy.value;
                 availableVehicles.remove(vehicleToBuy);
                 generateVehicle();
-                System.out.println("Kupiono " + vehicleToBuy.color + " " + vehicleToBuy.brand + " " + vehicleToBuy.segment + " za " + vehicleToBuy.value + "zł");
+                String receipt = "Kupiono " + vehicleToBuy.color + " " + vehicleToBuy.brand + " " + vehicleToBuy.segment + " za " + vehicleToBuy.value + "zł";
+                System.out.println(receipt);
+                currentPlayer.transactionHistory.add(receipt);
                 endTurn();
             }
         } catch (Exception e) {
@@ -183,6 +187,9 @@ public class Main {
     private static void showTransactionHistory() {
         System.out.println("---");
         System.out.println("Historia transakcji");
+        for (String transaction : currentPlayer.transactionHistory) {
+            System.out.println(transaction);
+        }
         System.out.println("---");
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
@@ -247,30 +254,3 @@ public class Main {
         gameOptions();
     }
 }
-        // Byte numMoves = 1;
-        // LinkedList<Object> transactionHistory;
-
-
-
-
-        // Begin game
-        // Player currentPlayer = players.get(0);
-
-        /*
-        while (!winCondition) {
-
-            printMenu();
-            Scanner playerInput = new Scanner(System.in);
-            Integer playerChoice = playerInput.nextInt();
-            switch (playerChoice) {
-                case 1:
-                    printAvailableCars();
-                    break;
-            }
-            if (numMoves == 3) {
-                winCondition = true;
-            }
-            numMoves++;
-
-            }
-        */

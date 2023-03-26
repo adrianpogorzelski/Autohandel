@@ -24,8 +24,8 @@ public class Customer {
             this.favoriteBrands.remove(1);
             this.favoriteBrands.add(Vehicle.brands[(int) (Math.random() * Vehicle.brands.length)]);
         }
-        this.canBuyDamagedCar = Math.random() * 100 < 0.05;
-        this.canBuyDamagedSuspension = Math.random() * 100 < 0.2;
+        this.canBuyDamagedCar = (Math.random() < 0.05);
+        this.canBuyDamagedSuspension = (Math.random() < 0.2);
         this.interestedIn = vehicleTypes[(int) (Math.random() * vehicleTypes.length)];
     }
 

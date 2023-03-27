@@ -1,5 +1,6 @@
 package customer;
 import cars.Vehicle;
+import game.Data;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,15 @@ public class Customer {
         this.interestedIn = vehicleTypes[(int) (Math.random() * vehicleTypes.length)];
     }
 
+    /** CUSTOMERS GENERATOR **/
+    public static void generateCustomer(int n) {
+        for (int i = 0; i < n; i++) {
+            Customer newCustomer = new Customer();
+            Data.availableCustomers.add(newCustomer);
+        }
+    }
+
+    /** PRINT DETAILS **/
     public void introduce() {
         System.out.println(this.name + ", poszukuje " + this.interestedIn + " marki " + this.favoriteBrands.get(0) + " lub " + this.favoriteBrands.get(1));
         System.out.println("Dysponuje budżetem " + this.budget + "zł");

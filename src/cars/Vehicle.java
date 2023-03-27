@@ -1,5 +1,7 @@
 package cars;
 
+import game.Data;
+
 import java.util.HashMap;
 import java.util.Random;
 
@@ -41,6 +43,19 @@ public abstract class Vehicle {
             segmentMultiplier = 2;
         }
         return 10000 + random.nextInt(30000) * segmentMultiplier * (1 - this.mileage / 300000);
+    }
+
+    /** AVAILABLE CARS GENERATOR **/
+    public static void generateVehicle() {
+        while (Data.availableVehicles.size() < 12) {
+            if (Math.random() < 0.6) {
+                Car newCar = new Car();
+                Data.availableVehicles.add(newCar);
+            } else {
+                Truck newTruck = new Truck();
+                Data.availableVehicles.add(newTruck);
+            }
+        }
     }
 
     /** RANDOM MILEAGE GENERATOR **/

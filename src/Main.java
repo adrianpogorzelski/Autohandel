@@ -1,4 +1,4 @@
-import cars.Vehicle;
+import vehicles.Vehicle;
 import customer.Customer;
 import game.Data;
 import game.Menu;

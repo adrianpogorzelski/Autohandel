@@ -1,6 +1,6 @@
 package player;
 
-import cars.Vehicle;
+import vehicles.Vehicle;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

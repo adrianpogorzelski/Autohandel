@@ -1,6 +1,6 @@
 package game;
 
-import cars.Vehicle;
+import vehicles.Vehicle;
 import customer.Customer;
 import player.Player;
 

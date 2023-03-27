@@ -1,4 +1,4 @@
-package cars;
+package vehicles;
 
 public class Truck extends Vehicle {
     public Integer cargoSpace;

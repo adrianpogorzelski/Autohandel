@@ -1,6 +1,5 @@
 package game;
 
-import cars.Vehicle;
 import customer.Customer;
 
 import java.util.Scanner;
@@ -36,8 +35,8 @@ public class Menu {
         System.out.println("6. Historia transakcji");
         System.out.println("---");
         switch (getPlayerSelection(6)) {
-            case 1 -> showAvailableCars();
-            case 2 -> showOwnedCars();
+            case 1 -> showAvailableVehicles();
+            case 2 -> showOwnedVehicles();
             case 3 -> showCustomers();
             case 4 -> buyAd();
             case 5 -> showAccountBalance();
@@ -45,18 +44,15 @@ public class Menu {
         }
     }
 
-    static void printAvailableCars() {
+    /** 1. AVAILABLE VEHICLES **/
+    public static void showAvailableVehicles() {
+        System.out.println("---");
+        System.out.println("Pojazdy na sprzedaż");
+        System.out.println("---");
         for (int i = 0; i <= Data.availableVehicles.size() - 1; i++) {
             System.out.println("Pojazd " + (i + 1));
             (Data.availableVehicles.get(i)).getVehicleData();
         }
-    }
-
-    public static void showAvailableCars() {
-        System.out.println("---");
-        System.out.println("Pojazdy na sprzedaż");
-        System.out.println("---");
-        printAvailableCars();
         System.out.println("1. Powrót");
         System.out.println("2. Kup pojazd");
         switch (getPlayerSelection(2)) {
@@ -65,7 +61,8 @@ public class Menu {
         }
     }
 
-    private static void showOwnedCars() {
+    /** 2. OWNED CARS **/
+    private static void showOwnedVehicles() {
         System.out.println("---");
         System.out.println("Posiadane pojazdy");
         System.out.println("---");
@@ -79,11 +76,18 @@ public class Menu {
         }
         System.out.println("---");
         System.out.println("1. Powrót");
-        switch (getPlayerSelection(1)) {
+        System.out.println("2. Pokaż szczegóły pojazdu");
+        System.out.println("3. Sprzedaj pojazd");
+        System.out.println("4. Napraw pojazd");
+        switch (getPlayerSelection(4)) {
             case 1 -> main();
+            case 2 -> System.out.println("2. Pokaż szczegóły pojazdu");
+            case 3 -> System.out.println("3. Sprzedaj pojazd");
+            case 4 -> System.out.println("4. Napraw pojazd");
         }
     }
 
+    /** 3. CUSTOMERS **/
     private static void showCustomers() {
         System.out.println("***");
         System.out.println("Dostępni klienci");
@@ -96,21 +100,32 @@ public class Menu {
         }
         System.out.println("---");
         System.out.println("1. Powrót");
-        switch (getPlayerSelection(1)) {
+        System.out.println("2. Sprzedaj pojazd");
+        switch (getPlayerSelection(2)) {
             case 1 -> main();
+            case 2 ->  System.out.println("2. Sprzedaj pojazd");
         }
     }
 
+    /** 4. BUY AN AD **/
     private static void buyAd() {
         System.out.println("***");
         System.out.println("Wykup reklamę");
+        System.out.println("Ogłoszenie w lokalnej gazecie powoduje dopływ losowej grupy kilku nowych klientów");
+        System.out.println("Koszt: 5000zł");
+        System.out.println("---");
+        System.out.println("Reklama w Internecie, która jest tańsza od gazety, ale przynosi jednego nowego potencjalnego klienta");
+        System.out.println("Koszt: 1000zł");
         System.out.println("---");
         System.out.println("1. Powrót");
         switch (getPlayerSelection(1)) {
             case 1 -> main();
+            case 2 -> System.out.println("Ogłoszenie w gazecie");
+            case 3 -> System.out.println("Reklama w Internecie");
         }
     }
 
+    /** 5. ACCOUNT BALANCE **/
     private static void showAccountBalance() {
         System.out.println("---");
         System.out.println("Stan konta");
@@ -122,6 +137,7 @@ public class Menu {
         }
     }
 
+    /** TRANSACTION HISTORY **/
     private static void showTransactionHistory() {
         System.out.println("---");
         System.out.println("Historia transakcji");

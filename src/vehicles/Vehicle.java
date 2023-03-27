@@ -1,4 +1,4 @@
-package cars;
+package vehicles;
 
 import game.Data;
 

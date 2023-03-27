@@ -1,5 +1,5 @@
 package customer;
-import cars.Vehicle;
+import vehicles.Vehicle;
 import game.Data;
 
 import java.util.ArrayList;

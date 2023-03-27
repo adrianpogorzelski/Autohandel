@@ -1,6 +1,6 @@
 package game;
 
-import cars.Vehicle;
+import vehicles.Vehicle;
 
 import java.util.Scanner;
 
@@ -20,10 +20,10 @@ public class Actions {
             vehicleToBuy = Data.availableVehicles.get(vehicleNumber - 1);
             if (Data.currentPlayer.money < vehicleToBuy.value) {
                 System.out.println("Brak wystarczającej ilości gotówki!");
-                Menu.showAvailableCars();
+                Menu.showAvailableVehicles();
             } else {
                 Data.currentPlayer.ownedVehicles.add(vehicleToBuy);
-                Data.currentPlayer.money -= vehicleToBuy.value;
+                Data.currentPlayer.money -= vehicleToBuy.value - carWashAndTax(vehicleToBuy);
                 Data.availableVehicles.remove(vehicleToBuy);
                 Vehicle.generateVehicle();
                 String receipt = "Kupiono " + vehicleToBuy.color + " " + vehicleToBuy.brand + " " + vehicleToBuy.segment + " za " + vehicleToBuy.value + "zł";
@@ -36,6 +36,12 @@ public class Actions {
         }
     }
 
+    /** CAR WASH AND TAX **/
+    static Integer carWashAndTax(Vehicle vehicle) {
+        return (int) (vehicle.value * 0.02) + 100;
+    }
+
+    /** END TURN AND CHANGE CURRENT PLAYER **/
     static void endTurn() {
         int playerIndex = Data.players.indexOf(Data.currentPlayer);
         if (Data.players.size() >= 2) {

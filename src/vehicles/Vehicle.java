@@ -1,36 +1,48 @@
 package vehicles;
 
-import game.Data;
-
 import java.util.HashMap;
 import java.util.Random;
 
 public abstract class Vehicle {
-    public String type;
-    public Integer value;
-    public String brand;
-    public Integer mileage = generateMileage();
-    public String color;
-    public String segment = segments[(int) (Math.random() * segments.length)];
-    public HashMap<String, Boolean> workingParts = new HashMap<>();
+    /** VEHICLE SETTINGS **/
+    public static final double CHANCE_TO_HAVE_WORKING_PART = 0.8;
 
+    // Segment value multipliers
+    public static final int STANDARD_SEGMENT_MULTIPLIER = 2;
+    public static final int PREMIUM_SEGMENT_MULTIPLIER = 3;
+
+    // Car value
+    public static final Integer BASE_VALUE = 5000;
+    public static final int MAX_VALUE = 30000;
+    public static final Integer MAX_MILEAGE = 300000;
+
+    // Data pools
     static final public String[] brands = {"Omega Romeo", "FLAT", "Luxus", "Poorshe", "Fiord", "Leopard", "FolkWagon"};
     final public String[] colors = {"Brązowy", "Czerwony", "Czarny", "Fioletowy", "Granatowy", "Niebieski", "Pomarańczowy", "Różowy", "Zielony", "Żółty"};
     final public static String[] segments = {"Budget", "Standard", "Premium"};
+
+    /** VARIABLES **/
+    public String type;
+    public Integer value;
+    public String brand;
+    public int mileage;
+    public String color;
+    public String segment = segments[(int) (Math.random() * segments.length)];
+    public HashMap<String, Boolean> workingParts = new HashMap<>();
 
     /** CONSTRUCTOR **/
     public Vehicle () {
         type = type;
         value = generateValue();
         brand = brands[(int) (Math.random() * brands.length)];
-        mileage = mileage;
+        mileage = generateMileage();
         color = colors[(int) (Math.random() * colors.length)];
         segment = segment;
-        workingParts.put("brakes", Math.random() > 0.8);
-        workingParts.put("suspension", Math.random() > 0.8);
-        workingParts.put("engine", Math.random() > 0.8);
-        workingParts.put("body", Math.random() > 0.8);
-        workingParts.put("gearbox", Math.random() > 0.8);
+        workingParts.put("brakes", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
+        workingParts.put("suspension", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
+        workingParts.put("engine", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
+        workingParts.put("body", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
+        workingParts.put("gearbox", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
     }
 
     /** RANDOM CAR VALUE GENERATOR **/
@@ -38,30 +50,17 @@ public abstract class Vehicle {
         Random random = new Random();
         int segmentMultiplier = 1;
         if (segment.equals("Premium")) {
-            segmentMultiplier = 3;
+            segmentMultiplier = PREMIUM_SEGMENT_MULTIPLIER;
         } else if (segment.equals("Standard")) {
-            segmentMultiplier = 2;
+            segmentMultiplier = STANDARD_SEGMENT_MULTIPLIER;
         }
-        return 10000 + random.nextInt(30000) * segmentMultiplier * (1 - this.mileage / 300000);
-    }
-
-    /** AVAILABLE CARS GENERATOR **/
-    public static void generateVehicle() {
-        while (Data.availableVehicles.size() < 12) {
-            if (Math.random() < 0.6) {
-                Car newCar = new Car();
-                Data.availableVehicles.add(newCar);
-            } else {
-                Truck newTruck = new Truck();
-                Data.availableVehicles.add(newTruck);
-            }
-        }
+        return BASE_VALUE + random.nextInt(MAX_VALUE) * segmentMultiplier * (1 - this.mileage / MAX_MILEAGE);
     }
 
     /** RANDOM MILEAGE GENERATOR **/
     public Integer generateMileage() {
         Random random = new Random();
-        return random.nextInt(300000);
+        return random.nextInt(MAX_MILEAGE);
     }
 
     /** RETURN DESCRIPTIONS OF DAMAGED PARTS **/

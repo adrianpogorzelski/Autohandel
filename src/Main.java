@@ -1,4 +1,3 @@
-import vehicles.Vehicle;
 import customer.Customer;
 import game.Data;
 import game.Menu;
@@ -10,18 +9,18 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("*** AAA AUTOHANDEL ***");
 
-        /** GAME SETUP **/
+        /* GAME SETUP */
         // Generate available cars
-        Vehicle.generateVehicle();
+        Data.fillVehicleList();
 
         // Generate customers
-        Customer.generateCustomer(5);
+        Customer.generateCustomer(Customer.INITIAL_CUSTOMERS);
 
-        // Generate players
+        // Get number of players
         Data.getNumPlayers();
         System.out.println("Liczba graczy: " + Data.numPlayers);
 
-        //// Create players
+        // Create provided number of players
         for (int i = 1; i <= Data.numPlayers; i++) {
             Scanner newPlayerInput = new Scanner(System.in);
             System.out.println("Podaj imię gracza " + i + ":");
@@ -32,7 +31,7 @@ public class Main {
         }
         Data.currentPlayer = Data.players.get(0);
 
-        /** GAME START **/
+        /* GAME START */
         Menu.main();
     }
 }

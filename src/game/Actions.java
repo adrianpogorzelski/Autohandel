@@ -25,7 +25,7 @@ public class Actions {
                 Data.currentPlayer.ownedVehicles.add(vehicleToBuy);
                 Data.currentPlayer.money -= vehicleToBuy.value - carWashAndTax(vehicleToBuy);
                 Data.availableVehicles.remove(vehicleToBuy);
-                Vehicle.generateVehicle();
+                Data.fillVehicleList();
                 String receipt = "Kupiono " + vehicleToBuy.color + " " + vehicleToBuy.brand + " " + vehicleToBuy.segment + " za " + vehicleToBuy.value + "zł";
                 System.out.println(receipt);
                 Data.currentPlayer.transactionHistory.add(receipt);

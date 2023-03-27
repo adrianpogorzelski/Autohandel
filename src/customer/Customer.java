@@ -5,6 +5,12 @@ import game.Data;
 import java.util.ArrayList;
 
 public class Customer {
+    /** CUSTOMER SETTINGS **/
+    public static final Byte INITIAL_CUSTOMERS = 5;
+    public static final Integer CUSTOMER_BUDGET = 200000;
+    public static final double CHANGE_TO_BUY_DAMAGED_CAR = 0.05;
+    public static final double CHANCE_TO_BUY_DAMAGED_SUSPENSION = 0.2;
+
     public String name;
     public Integer budget;
     public ArrayList<String> favoriteBrands;
@@ -17,7 +23,7 @@ public class Customer {
 
     public Customer() {
         this.name = names[(int) (Math.random() * names.length)];
-        this.budget = (int) (Math.random() * 200000);
+        this.budget = (int) (Math.random() * CUSTOMER_BUDGET);
         this.favoriteBrands = new ArrayList<>();
         this.favoriteBrands.add(Vehicle.brands[(int) (Math.random() * Vehicle.brands.length)]);
         this.favoriteBrands.add(Vehicle.brands[(int) (Math.random() * Vehicle.brands.length)]);
@@ -25,8 +31,8 @@ public class Customer {
             this.favoriteBrands.remove(1);
             this.favoriteBrands.add(Vehicle.brands[(int) (Math.random() * Vehicle.brands.length)]);
         }
-        this.canBuyDamagedCar = (Math.random() < 0.05);
-        this.canBuyDamagedSuspension = (Math.random() < 0.2);
+        this.canBuyDamagedCar = (Math.random() < CHANGE_TO_BUY_DAMAGED_CAR);
+        this.canBuyDamagedSuspension = (Math.random() < CHANCE_TO_BUY_DAMAGED_SUSPENSION);
         this.interestedIn = vehicleTypes[(int) (Math.random() * vehicleTypes.length)];
     }
 

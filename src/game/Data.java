@@ -9,7 +9,7 @@ import player.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Data {
+public abstract class Data {
     private static final double TRUCK_CHANCE = 0.6;
     public static ArrayList<Vehicle> availableVehicles = new ArrayList<>();
     public static ArrayList<Customer> availableCustomers = new ArrayList<>();

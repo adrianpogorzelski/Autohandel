@@ -4,7 +4,7 @@ import customer.Customer;
 
 import java.util.Scanner;
 
-public class Menu {
+public abstract class Menu {
 
     /** GET PLAYER INPUT **/
     static Byte playerChoice = null;
@@ -62,7 +62,7 @@ public class Menu {
     }
 
     /** 2. OWNED CARS **/
-    private static void showOwnedVehicles() {
+    public static void showOwnedVehicles() {
         System.out.println("---");
         System.out.println("Posiadane pojazdy");
         System.out.println("---");
@@ -82,7 +82,7 @@ public class Menu {
         switch (getPlayerSelection(4)) {
             case 1 -> main();
             case 2 -> System.out.println("2. Pokaż szczegóły pojazdu");
-            case 3 -> System.out.println("3. Sprzedaj pojazd");
+            case 3 -> Actions.sellVehicle();
             case 4 -> System.out.println("4. Napraw pojazd");
         }
     }
@@ -92,18 +92,22 @@ public class Menu {
         System.out.println("***");
         System.out.println("Dostępni klienci");
         System.out.println("---");
+        printCustomers();
+        System.out.println("---");
+        System.out.println("1. Powrót");
+        System.out.println("2. Pokaż posiadane pojazdy");
+        switch (getPlayerSelection(2)) {
+            case 1 -> main();
+            case 2 -> showOwnedVehicles();
+        }
+    }
+
+    static void printCustomers() {
         for (int i = 0; i < Data.availableCustomers.size(); i++) {
             Customer currentCustomer = Data.availableCustomers.get(i);
             System.out.println("Klient " + (i + 1));
             currentCustomer.introduce();
             System.out.println("---");
-        }
-        System.out.println("---");
-        System.out.println("1. Powrót");
-        System.out.println("2. Sprzedaj pojazd");
-        switch (getPlayerSelection(2)) {
-            case 1 -> main();
-            case 2 ->  System.out.println("2. Sprzedaj pojazd");
         }
     }
 

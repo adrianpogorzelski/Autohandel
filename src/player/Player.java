@@ -10,7 +10,7 @@ public class Player {
     public static final Integer INITIAL_MONEY = 50000;
 
     public String name;
-    public Integer money;
+    public double money;
     public ArrayList<Vehicle> ownedVehicles;
     public LinkedList<String> transactionHistory;
 

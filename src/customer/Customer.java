@@ -8,15 +8,15 @@ public class Customer {
     /** CUSTOMER SETTINGS **/
     public static final Byte INITIAL_CUSTOMERS = 5;
     public static final Integer CUSTOMER_BUDGET = 200000;
-    public static final double CHANGE_TO_BUY_DAMAGED_CAR = 0.05;
+    public static final double CHANCE_TO_BUY_DAMAGED_CAR = 0.05;
     public static final double CHANCE_TO_BUY_DAMAGED_SUSPENSION = 0.2;
 
     public String name;
     public Integer budget;
     public ArrayList<String> favoriteBrands;
-    Boolean canBuyDamagedCar;
-    Boolean canBuyDamagedSuspension;
-    String interestedIn;
+    public Boolean canBuyDamagedCar;
+    public Boolean canBuyDamagedSuspension;
+    public String interestedIn;
 
     static String[] names = {"Alina", "Bogdan", "Cecylia", "Dariusz", "Eliza", "Franciszek", "Genowefa", "Henryk", "Irena", "Janusz", "Katarzyna", "Ludwik", "Maria", "Norbert", "Piotr", "Renata", "Sławomir", "Tadeusz", "Urszula", "Włodzimierz", "Zenon"};
     String[] vehicleTypes = {"samochód osobowy", "samochód dostawczy"};
@@ -31,7 +31,7 @@ public class Customer {
             this.favoriteBrands.remove(1);
             this.favoriteBrands.add(Vehicle.brands[(int) (Math.random() * Vehicle.brands.length)]);
         }
-        this.canBuyDamagedCar = (Math.random() < CHANGE_TO_BUY_DAMAGED_CAR);
+        this.canBuyDamagedCar = (Math.random() < CHANCE_TO_BUY_DAMAGED_CAR);
         this.canBuyDamagedSuspension = (Math.random() < CHANCE_TO_BUY_DAMAGED_SUSPENSION);
         this.interestedIn = vehicleTypes[(int) (Math.random() * vehicleTypes.length)];
     }

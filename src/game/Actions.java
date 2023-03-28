@@ -3,12 +3,16 @@ package game;
 import customer.Customer;
 import vehicles.Vehicle;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 import static game.Data.currentPlayer;
 
 public abstract class Actions {
-    static final double interestRate = 1.1;
+    static final double INTEREST_RATE = 1.2;
+    private static final double TAX_VALUE = 0.02;
+    private static final int CAR_WASH_PRICE = 100;
+
     /**
      * BUY A VEHICLE
      **/
@@ -33,8 +37,11 @@ public abstract class Actions {
                 Data.availableVehicles.remove(vehicleToBuy);
                 Data.fillVehicleList();
                 String receipt = "Kupiono " + vehicleToBuy.color + " " + vehicleToBuy.brand + " " + vehicleToBuy.segment + " za " + vehicleToBuy.value + "zł";
+                String additionalCosts = "Opłacono myjnię (" + CAR_WASH_PRICE + "zł) i podatek (" + (int) (vehicleToBuy.value * TAX_VALUE) + "zł)";
                 System.out.println(receipt);
+                System.out.println(additionalCosts);
                 currentPlayer.transactionHistory.add(receipt);
+                currentPlayer.transactionHistory.add(additionalCosts);
                 endTurn();
             }
         } catch (Exception e) {
@@ -70,13 +77,16 @@ public abstract class Actions {
         }
         Customer selectedCustomer = selectCustomer();
         if (!customerCanBuy(selectedCustomer, vehicleToSell)) {
-            System.out.println("Klient nie jest zainteresowany tym pojazdem!");
             Menu.showOwnedVehicles();
         } else {
-            currentPlayer.money += (int) (vehicleToSell.value * interestRate - carWashAndTax(vehicleToSell));
-            String receipt = "Sprzedano " + vehicleToSell.color + " " + vehicleToSell.brand + " " + vehicleToSell.segment + " za " + vehicleToSell.value + "zł";
+            int sellingPrice = (int) (vehicleToSell.value * INTEREST_RATE);
+            currentPlayer.money += (sellingPrice - carWashAndTax(vehicleToSell));
+            String receipt = "Sprzedano " + vehicleToSell.color + " " + vehicleToSell.brand + " " + vehicleToSell.segment + " za " + sellingPrice + "zł";
             System.out.println(receipt);
+            String additionalCosts = "Opłacono myjnię (" + CAR_WASH_PRICE + "zł) i podatek (" + (int) (vehicleToSell.value * TAX_VALUE) + "zł)";
+            System.out.println(additionalCosts);
             currentPlayer.transactionHistory.add(receipt);
+            currentPlayer.transactionHistory.add(additionalCosts);
             currentPlayer.ownedVehicles.remove(vehicleToSell);
             Data.availableCustomers.remove(selectedCustomer);
             Customer.generateCustomer(2);
@@ -107,12 +117,37 @@ public abstract class Actions {
 
         // Check if customer can buy the vehicle
     static Boolean customerCanBuy(Customer customer, Vehicle vehicle) {
-        return customer.budget >= vehicle.value;
+        if (customer.budget < vehicle.value * TAX_VALUE) {
+            System.out.println("Klient ma za mały budżet");
+            return false;
+        } else if (!Objects.equals(customer.interestedIn, vehicle.type)) {
+            System.out.println("Klient nie chce tego typu pojazdu");
+            return false;
+        } else if (!customer.favoriteBrands.contains(vehicle.brand)) {
+            System.out.println("Klient nie jest zainteresowany tą marką");
+            return false;
+        } else if (vehicle.workingParts.containsValue(false)) {
+            if (!customer.canBuyDamagedCar) {
+                System.out.println("Klient nie chce uszkodzonego pojazdu");
+                return false;
+            } else {
+                return true;
+            }
+        } else if (!vehicle.workingParts.get("suspension")) {
+            if (!customer.canBuyDamagedSuspension) {
+                System.out.println("Klient nie chce uszkodzonego pojazdu");
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
     }
 
     /** CAR WASH AND TAX **/
     static Integer carWashAndTax(Vehicle vehicle) {
-        return (int) (vehicle.value * 0.02) + 100;
+        return (int) (vehicle.value * TAX_VALUE) + CAR_WASH_PRICE;
     }
 
     /** END TURN AND CHANGE CURRENT PLAYER **/

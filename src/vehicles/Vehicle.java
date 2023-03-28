@@ -1,11 +1,12 @@
 package vehicles;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
 public abstract class Vehicle {
     /** VEHICLE SETTINGS **/
-    public static final double CHANCE_TO_HAVE_WORKING_PART = 0.8;
+    public static final double CHANCE_TO_HAVE_DAMAGED_PART = 0.2;
 
     // Segment value multipliers
     public static final int STANDARD_SEGMENT_MULTIPLIER = 2;
@@ -38,11 +39,9 @@ public abstract class Vehicle {
         mileage = generateMileage();
         color = colors[(int) (Math.random() * colors.length)];
         segment = segment;
-        workingParts.put("brakes", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
-        workingParts.put("suspension", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
-        workingParts.put("engine", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
-        workingParts.put("body", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
-        workingParts.put("gearbox", Math.random() > CHANCE_TO_HAVE_WORKING_PART);
+        for (String s : Arrays.asList("brakes", "suspension", "engine", "body", "gearbox")) {
+            workingParts.put(s, Math.random() > CHANCE_TO_HAVE_DAMAGED_PART);
+        }
     }
 
     /** RANDOM CAR VALUE GENERATOR **/
@@ -67,10 +66,10 @@ public abstract class Vehicle {
     public String checkParts() {
         StringBuilder returnString = new StringBuilder();
         for (String i : workingParts.keySet()) {
-            if (!workingParts.containsValue(true)) {
+            if (!workingParts.containsValue(false)) {
                 returnString = new StringBuilder(" Brak");
             } else {
-                if (workingParts.get(i)) {
+                if (!workingParts.get(i)) {
                     switch (i) {
                         case "brakes" -> returnString.append(" - hamulce");
                         case "suspension" -> returnString.append(" - zawieszenie");

@@ -4,6 +4,7 @@ import customer.Customer;
 import player.Player;
 import vehicles.Vehicle;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -156,6 +157,90 @@ public abstract class Actions {
         return (int) (vehicle.value * TAX_VALUE) + CAR_WASH_PRICE;
     }
 
+    /** FIX A BROKEN VEHICLE **/
+    public static void fixVehicle() {
+        Vehicle vehicleToFix;
+        Scanner playerScanner = new Scanner(System.in);
+        System.out.println("Podaj numer pojazdu do naprawy (1 - " + currentPlayer.ownedVehicles.size() + "): ");
+        try {
+            int vehicleNumber = playerScanner.nextByte();
+            // Number out of range
+            if (vehicleNumber <= 0 || vehicleNumber > currentPlayer.ownedVehicles.size()) {
+                Menu.showOwnedVehicles();
+            }
+            // Number in range
+            vehicleToFix = currentPlayer.ownedVehicles.get(vehicleNumber - 1);
+            // Check if vehicle is broken
+            if (!vehicleToFix.workingParts.containsValue(false)) {
+                System.out.println("Ten pojazd nie jest uszkodzony");
+                Menu.showOwnedVehicles();
+            } else {
+                // Show broken parts
+                System.out.println("Wybierz część do naprawy");
+                int i = 1;
+                ArrayList<String> brokenParts = new ArrayList<>();
+                for (String partName : vehicleToFix.workingParts.keySet()) {
+                    if (!vehicleToFix.workingParts.get(partName)) {
+                        System.out.println(i + " - " + partName);
+                        brokenParts.add(partName);
+                        i++;
+                    }
+                }
+                // Select part
+                Scanner selectPart = new Scanner(System.in);
+                try {
+                    int selection = selectPart.nextInt();
+                    if (selection <= 0 || selection > brokenParts.size()) {
+                        Menu.showOwnedVehicles();
+                    } else {
+                        String selectedPart = String.valueOf(brokenParts.get(selection - 1));
+                        System.out.println(selectedPart);
+                    }
+                } catch (Exception e) {
+                    Menu.showOwnedVehicles();
+                }
+                // Select mechanic
+                System.out.println("Wybierz mechanika:");
+                System.out.println("1. Janusz - jakość i ceny na wysokim poziomie");
+                System.out.println("2. Marian - może nie najtaniej, ale za to jako-tako");
+                System.out.println("3. Adrian - zupełnie nie podejrzany zakład w dziwnej okolicy");
+                Scanner selectMechanic = new Scanner(System.in);
+                int selectedMechanic = 0;
+                try {
+                    selectedMechanic = selectMechanic.nextInt();
+                    if (selectedMechanic <= 0 || selectedMechanic > 3) {
+                        Menu.showOwnedVehicles();
+                    }
+                } catch (Exception e) {
+                    Menu.showOwnedVehicles();
+                }
+                switch (selectedMechanic) {
+                    case 1: System.out.println("Janusz");
+                    case 2: System.out.println("Marian");
+                    case 3: System.out.println("Adrian");
+                }
+                // Janusz
+                // 100% chance to fix the part
+                // 120% cost
+                // Marian
+                // 90% to fix
+                // 100% cost
+                // 10% to not fix
+                // Pay cost anyway
+                // Additionally pay for Janusz to fix
+                // Adrian
+                // 80% to fix
+                // 80% cost
+                // 20% to not fix
+                // Pay cost anyway
+                // Additionally pay for Janusz to fix
+                // Additional 2% to break random part
+            }
+        } catch (Exception e) {
+            Menu.showOwnedVehicles();
+        }
+    }
+
     /** BUY ADS **/
     public static void newspaperAd() {
         if (currentPlayer.money < 1000) {
@@ -195,6 +280,9 @@ public abstract class Actions {
                 currentPlayer = Data.players.get(playerIndex + 1);
             }
         }
+        Data.round++;
         Menu.main();
     }
+
+
 }

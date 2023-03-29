@@ -39,7 +39,7 @@ public abstract class Vehicle {
         mileage = generateMileage();
         color = colors[(int) (Math.random() * colors.length)];
         segment = segment;
-        for (String s : Arrays.asList("brakes", "suspension", "engine", "body", "gearbox")) {
+        for (String s : Arrays.asList("hamulce", "zawieszenie", "silnik", "karoseria", "skrzynia biegów")) {
             workingParts.put(s, Math.random() > CHANCE_TO_HAVE_DAMAGED_PART);
         }
     }
@@ -65,18 +65,12 @@ public abstract class Vehicle {
     /** RETURN DESCRIPTIONS OF DAMAGED PARTS **/
     public String checkParts() {
         StringBuilder returnString = new StringBuilder();
-        for (String i : workingParts.keySet()) {
+        for (String key : workingParts.keySet()) {
             if (!workingParts.containsValue(false)) {
                 returnString = new StringBuilder(" Brak");
             } else {
-                if (!workingParts.get(i)) {
-                    switch (i) {
-                        case "brakes" -> returnString.append(" - hamulce");
-                        case "suspension" -> returnString.append(" - zawieszenie");
-                        case "engine" -> returnString.append(" - silnik");
-                        case "body" -> returnString.append(" - karoseria");
-                        case "gearbox" -> returnString.append(" - skrzynia biegów");
-                    }
+                if (!workingParts.get(key)) {
+                    returnString.append(" - " + key);
                 }
             }
         }

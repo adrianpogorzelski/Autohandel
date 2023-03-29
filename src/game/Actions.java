@@ -1,12 +1,14 @@
 package game;
 
 import customer.Customer;
+import player.Player;
 import vehicles.Vehicle;
 
 import java.util.Objects;
 import java.util.Scanner;
 
 import static game.Data.currentPlayer;
+import static game.Data.round;
 
 public abstract class Actions {
     static final double INTEREST_RATE = 1.2;
@@ -85,13 +87,17 @@ public abstract class Actions {
             System.out.println(receipt);
             String additionalCosts = "Opłacono myjnię (" + CAR_WASH_PRICE + "zł) i podatek (" + (int) (vehicleToSell.value * TAX_VALUE) + "zł)";
             System.out.println(additionalCosts);
-            currentPlayer.transactionHistory.add(receipt);
-            currentPlayer.transactionHistory.add(additionalCosts);
-            currentPlayer.ownedVehicles.remove(vehicleToSell);
-            Data.availableCustomers.remove(selectedCustomer);
-            Customer.generateCustomer(2);
-            Actions.endTurn();
-            Menu.main();
+            if (currentPlayer.money >= Player.INITIAL_MONEY * 2) {
+                System.out.println("Gratulacje! " + currentPlayer.name + " wygrywa grę w " + round + " ruchach!");
+            } else {
+                currentPlayer.transactionHistory.add(receipt);
+                currentPlayer.transactionHistory.add(additionalCosts);
+                currentPlayer.ownedVehicles.remove(vehicleToSell);
+                Data.availableCustomers.remove(selectedCustomer);
+                Customer.generateCustomer(2);
+                Actions.endTurn();
+                Menu.main();
+            }
         }
     }
 
@@ -149,6 +155,34 @@ public abstract class Actions {
     static Integer carWashAndTax(Vehicle vehicle) {
         return (int) (vehicle.value * TAX_VALUE) + CAR_WASH_PRICE;
     }
+
+    /** BUY ADS **/
+    public static void newspaperAd() {
+        if (currentPlayer.money < 1000) {
+            System.out.println("Brak środków na reklamę w gazecie");
+            Menu.buyAd();
+        }
+        currentPlayer.money -= 1000;
+        int newCustomers = (int) (Math.random() * 5);
+        Customer.generateCustomer(newCustomers);
+        System.out.println("Reklama przyciągnęła " + newCustomers + " nowych klientów");
+        currentPlayer.transactionHistory.add("Wydano 1000zł na reklamę w lokalnej gazecie");
+        endTurn();
+    }
+
+    public static void internetAd() {
+        if (currentPlayer.money < 200) {
+            System.out.println("Brak środków na reklamę w internecie");
+            Menu.buyAd();
+            endTurn();
+        }
+        currentPlayer.money -= 200;
+        Customer.generateCustomer(1);
+        System.out.println("Reklama przyciągnęła nowego klienta");
+        currentPlayer.transactionHistory.add("Wydano 200 na reklamę w Internecie");
+        endTurn();
+    }
+
 
     /** END TURN AND CHANGE CURRENT PLAYER **/
     static void endTurn() {

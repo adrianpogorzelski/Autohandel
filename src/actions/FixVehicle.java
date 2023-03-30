@@ -25,9 +25,11 @@ public abstract class FixVehicle {
         selectMechanic();
         System.out.println(selectedMechanic.name + " zabiera się za naprawę " + vehicleToFix.color + " " + vehicleToFix.brand);
         calculateCost(selectedMechanic);
-        if (Math.random() < selectedMechanic.chanceToFix) {
+        if (Math.random() > selectedMechanic.chanceToFix) {
             System.out.println("Zadanie przerosło mechanika... Konieczna była interwencja profesjonalisty");
             totalCost = totalCost + calculateCost(mechanics.get(0));
+        } else {
+            vehicleToFix.workingParts.put(selectedPart, true);
         }
         System.out.println(">> Zapłacono " + totalCost + " za naprawę");
         endTurn();
@@ -106,6 +108,11 @@ public abstract class FixVehicle {
     }
 
     private static void selectMechanic() {
+        if (mechanics.size() == 3) {
+            mechanics.remove(2);
+            mechanics.remove(1);
+            mechanics.remove(0);
+        }
         Mechanic Janusz = new Mechanic("Janusz", " - Jakość i ceny na wysokim poziomie", 1.2, 1, 0);
         Mechanic Marian = new Mechanic("Marian", " - Może nie najtaniej, ale za to jako-tako", 1, 0.9, 0);
         Mechanic Adrian = new Mechanic("Adrian", " - Zupełnie nie podejrzany zakład w całkowicie normalnej okolicy", 0.8, 0.8, 0.02);

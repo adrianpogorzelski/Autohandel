@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Autohandel:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Autohandel_jar</output-path>
+    <root id="archive" name="Autohandel.jar" />
+  </artifact>
+</component>

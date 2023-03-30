@@ -6,7 +6,7 @@ import game.Menu;
 import static actions.EndTurn.endTurn;
 import static game.Data.currentPlayer;
 
-public abstract class BuyAd implements TransactionSettings{
+public abstract class BuyAd implements TransactionSettings {
 
     public static void newspaperAd() {
         if (currentPlayer.money < NEWSPAPER_AD_COST) {
@@ -14,7 +14,7 @@ public abstract class BuyAd implements TransactionSettings{
             Menu.buyAd();
         }
         currentPlayer.money -= NEWSPAPER_AD_COST;
-        int newCustomers = (int) (Math.random() * 5);
+        int newCustomers = (int) (Math.random() * 6);
         Customer.generateCustomer(newCustomers);
         String receipt = "Wydano " + NEWSPAPER_AD_COST + "zł na reklamę w lokalnej gazecie";
         System.out.println(">> " + receipt);

@@ -1,5 +1,6 @@
 package game;
 
+import actions.TransactionSettings;
 import customer.Customer;
 
 import java.util.Scanner;
@@ -101,9 +102,9 @@ public abstract class Menu {
     public static void buyAd() {
         System.out.println("*** Zainwestuj w reklamę ***\n");
         System.out.println("Ogłoszenie w lokalnej gazecie powoduje dopływ losowej grupy kilku nowych klientów");
-        System.out.println("Koszt: 1000zł\n");
+        System.out.println("Koszt: " + TransactionSettings.NEWSPAPER_AD_COST + "zł\n");
         System.out.println("Reklama w Internecie, która jest tańsza od gazety, ale przynosi jednego nowego potencjalnego klienta");
-        System.out.println("Koszt: 200zł\n");
+        System.out.println("Koszt: " + TransactionSettings.INTERNET_AD_COST+ "zł\n");
         System.out.println("[1] Powrót | [2] Ogłoszenie w gazecie | [3] Reklama w Internecie");
         switch (getPlayerSelection(3)) {
             case 1 -> main();

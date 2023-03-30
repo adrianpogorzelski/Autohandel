@@ -11,7 +11,10 @@ import static game.Data.currentPlayer;
 
 public abstract class FixVehicle {
 
-    static Vehicle vehicleToFix = null;
+    private static Vehicle vehicleToFix = null;
+    private static String selectedPart = null;
+    private static ArrayList<Mechanic> mechanics = new ArrayList<>();
+    private static Mechanic selectedMechanic = null;
 
     public static void fixVehicle() {
         // Select vehicle to fix
@@ -70,7 +73,7 @@ public abstract class FixVehicle {
             if (selection <= 0 || selection > brokenParts.size()) {
                 Menu.showOwnedVehicles();
             } else {
-                String selectedPart = String.valueOf(brokenParts.get(selection - 1));
+                selectedPart = String.valueOf(brokenParts.get(selection - 1));
                 System.out.println(selectedPart);
             }
         } catch (Exception e) {
@@ -78,7 +81,34 @@ public abstract class FixVehicle {
         }
     }
 
+    /** MECHANICS **/
+    private static class Mechanic {
+        String name;
+        String description;
+        double priceModifier;
+        double chanceToFix;
+        double chanceToBreak;
+
+        public Mechanic(String name, String description, double priceModifier, double chanceToFix, double chanceToBreak) {
+            this.name = name;
+            this.description = description;
+            this.priceModifier = priceModifier;
+            this.chanceToFix = chanceToFix;
+            this.chanceToBreak = chanceToBreak;
+        }
+    }
+
     private static void selectMechanic() {
-        System.out.println();
+        Mechanic Janusz = new Mechanic("Janusz", " - Jakość i ceny na wysokim poziomie", 1.2, 1, 0);
+        Mechanic Marian = new Mechanic("Marian", " - Może nie najtaniej, ale za to jako-tako", 1, 0.9, 0);
+        Mechanic Adrian = new Mechanic("Adrian", " - Zupełnie nie podejrzany zakład w całkowicie normalnej okolicy", 0.8, 0.8, 0.2);
+        mechanics.add(Janusz);
+        mechanics.add(Marian);
+        mechanics.add(Adrian);
+        System.out.println("Wybierz mechanika");
+        int i = 1;
+        for (Mechanic mechanic : mechanics) {
+            System.out.println("[" + i + "] " + mechanic.name + mechanic.description);
+        }
     }
 }

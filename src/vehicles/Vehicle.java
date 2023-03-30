@@ -90,7 +90,6 @@ public abstract class Vehicle {
             System.out.println("Pojemność: " + ((Truck) this).cargoSpace + "m3");
         }
         System.out.println("Uszkodzone elementy:" + checkParts());
-        System.out.println("Cena: " + value + "zł");
-        System.out.println("---");
+        System.out.println("Cena: " + value + "zł\n");
     }
 }

@@ -6,7 +6,6 @@ import game.Menu;
 import player.Player;
 import vehicles.Vehicle;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 import static actions.CarWashAndTax.carWashAndTax;
@@ -39,6 +38,7 @@ public abstract class SellVehicle implements TransactionSettings {
             }
         }
         Customer selectedCustomer = selectCustomer();
+        assert vehicleToSell != null;
         if (!customerCanBuy(selectedCustomer, vehicleToSell)) {
             Menu.showOwnedVehicles();
         } else {
@@ -86,24 +86,24 @@ public abstract class SellVehicle implements TransactionSettings {
     // Check if selected customer can buy the vehicle
     static Boolean customerCanBuy(Customer customer, Vehicle vehicle) {
         if (customer.budget < vehicle.value * TAX_VALUE) {
-            System.out.println("Klient ma za mały budżet");
+            System.out.println("Klient ma za mały budżet\n");
             return false;
-        } else if (!Objects.equals(customer.interestedIn, vehicle.type)) {
-            System.out.println("Klient nie chce tego typu pojazdu");
+        } else if (customer.interestedIn.contains(vehicle.brand)) {
+            System.out.println("Klient nie chce tego typu pojazdu\n");
             return false;
         } else if (!customer.favoriteBrands.contains(vehicle.brand)) {
-            System.out.println("Klient nie jest zainteresowany tą marką");
+            System.out.println("Klient nie jest zainteresowany tą marką\n");
             return false;
         } else if (vehicle.workingParts.containsValue(false)) {
             if (!customer.canBuyDamagedCar) {
-                System.out.println("Klient nie chce uszkodzonego pojazdu");
+                System.out.println("Klient nie chce uszkodzonego pojazdu\n");
                 return false;
             } else {
                 return true;
             }
         } else if (!vehicle.workingParts.get("suspension")) {
             if (!customer.canBuyDamagedSuspension) {
-                System.out.println("Klient nie chce uszkodzonego pojazdu");
+                System.out.println("Klient nie chce uszkodzonego pojazdu\n");
                 return false;
             } else {
                 return true;

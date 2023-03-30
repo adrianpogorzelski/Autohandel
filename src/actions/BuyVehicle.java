@@ -33,8 +33,8 @@ public abstract class BuyVehicle implements TransactionSettings {
                 Data.fillVehicleList();
                 String receipt = "Kupiono " + vehicleToBuy.color + " " + vehicleToBuy.brand + " " + vehicleToBuy.segment + " za " + vehicleToBuy.value + "zł";
                 String additionalCosts = "Opłacono myjnię (" + CAR_WASH_PRICE + "zł) i podatek (" + (int) (vehicleToBuy.value * TAX_VALUE) + "zł)";
-                System.out.println(receipt);
-                System.out.println(additionalCosts);
+                System.out.println(">> " + receipt);
+                System.out.println(">> " + additionalCosts);
                 currentPlayer.transactionHistory.add(receipt);
                 currentPlayer.transactionHistory.add(additionalCosts);
                 endTurn();

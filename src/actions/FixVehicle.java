@@ -3,6 +3,7 @@ package actions;
 import game.Menu;
 import vehicles.Vehicle;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static actions.EndTurn.endTurn;
@@ -16,8 +17,9 @@ public abstract class FixVehicle {
         // Select vehicle to fix
         selectVehicle();
         checkIfBroken();
+        selectPart();
         selectMechanic();
-        System.out.println("Fixing " + vehicleToFix.color + " " + vehicleToFix.brand);
+        System.out.println(">> Wydano XXXXzł na naprawę " + vehicleToFix.color + " " + vehicleToFix.brand);
         endTurn();
     }
 
@@ -46,7 +48,32 @@ public abstract class FixVehicle {
 
     static void checkIfBroken() {
         if (!vehicleToFix.workingParts.containsValue(false)) {
-            System.out.println("Pojazd nie jest uszkodzony");
+            System.out.println("(!) Pojazd nie jest uszkodzony\n");
+            Menu.showOwnedVehicles();
+        }
+    }
+
+    static void selectPart() {
+        System.out.println("Wybierz część do naprawy");
+        int i = 1;
+        ArrayList<String> brokenParts = new ArrayList<>();
+        for (String partName : vehicleToFix.workingParts.keySet()) {
+            if (!vehicleToFix.workingParts.get(partName)) {
+                System.out.println(i + " - " + partName);
+                brokenParts.add(partName);
+                i++;
+            }
+        }
+        Scanner selectPart = new Scanner(System.in);
+        try {
+            int selection = selectPart.nextInt();
+            if (selection <= 0 || selection > brokenParts.size()) {
+                Menu.showOwnedVehicles();
+            } else {
+                String selectedPart = String.valueOf(brokenParts.get(selection - 1));
+                System.out.println(selectedPart);
+            }
+        } catch (Exception e) {
             Menu.showOwnedVehicles();
         }
     }

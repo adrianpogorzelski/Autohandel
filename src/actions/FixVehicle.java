@@ -4,6 +4,7 @@ import game.Menu;
 import vehicles.Vehicle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import static actions.EndTurn.endTurn;
@@ -15,14 +16,20 @@ public abstract class FixVehicle {
     private static String selectedPart = null;
     private static ArrayList<Mechanic> mechanics = new ArrayList<>();
     private static Mechanic selectedMechanic = null;
+    private static Integer totalCost = null;
 
     public static void fixVehicle() {
-        // Select vehicle to fix
         selectVehicle();
         checkIfBroken();
         selectPart();
         selectMechanic();
-        System.out.println(">> Wydano XXXXzł na naprawę " + vehicleToFix.color + " " + vehicleToFix.brand);
+        System.out.println(selectedMechanic.name + " zabiera się za naprawę " + vehicleToFix.color + " " + vehicleToFix.brand);
+        calculateCost(selectedMechanic);
+        if (Math.random() < selectedMechanic.chanceToFix) {
+            System.out.println("Zadanie przerosło mechanika... Konieczna była interwencja profesjonalisty");
+            totalCost = totalCost + calculateCost(mechanics.get(0));
+        }
+        System.out.println(">> Zapłacono " + totalCost + " za naprawę");
         endTurn();
     }
 
@@ -101,7 +108,7 @@ public abstract class FixVehicle {
     private static void selectMechanic() {
         Mechanic Janusz = new Mechanic("Janusz", " - Jakość i ceny na wysokim poziomie", 1.2, 1, 0);
         Mechanic Marian = new Mechanic("Marian", " - Może nie najtaniej, ale za to jako-tako", 1, 0.9, 0);
-        Mechanic Adrian = new Mechanic("Adrian", " - Zupełnie nie podejrzany zakład w całkowicie normalnej okolicy", 0.8, 0.8, 0.2);
+        Mechanic Adrian = new Mechanic("Adrian", " - Zupełnie nie podejrzany zakład w całkowicie normalnej okolicy", 0.8, 0.8, 0.02);
         mechanics.add(Janusz);
         mechanics.add(Marian);
         mechanics.add(Adrian);
@@ -109,6 +116,31 @@ public abstract class FixVehicle {
         int i = 1;
         for (Mechanic mechanic : mechanics) {
             System.out.println("[" + i + "] " + mechanic.name + mechanic.description);
+            i++;
         }
+        Scanner selectMechanic = new Scanner(System.in);
+        try {
+            int selection = selectMechanic.nextInt();
+            if (selection <= 0 || selection > mechanics.size()) {
+                Menu.showOwnedVehicles();
+            } else {
+                selectedMechanic = mechanics.get(selection - 1);
+                System.out.println(selectedPart);
+            }
+        } catch (Exception e) {
+            Menu.showOwnedVehicles();
+        }
+    }
+
+    private static Integer calculateCost(Mechanic mechanic) {
+        HashMap<String, Integer> repairPrices = new HashMap<>();
+        repairPrices.put("hamulce", 100);
+        repairPrices.put("zawieszenie", 200);
+        repairPrices.put("silnik", 1000);
+        repairPrices.put("karoseria", 500);
+        repairPrices.put("skrzynia biegów", 500);
+
+        totalCost = (int) (repairPrices.get(selectedPart) * mechanic.priceModifier);
+        return totalCost;
     }
 }

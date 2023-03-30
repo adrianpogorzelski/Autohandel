@@ -16,7 +16,7 @@ public abstract class Data {
     public static int numPlayers;
     public static ArrayList<Player> players = new ArrayList<>();
     public static Player currentPlayer;
-    static Integer round = 1;
+    public static Integer round = 1;
 
     /** AVAILABLE VEHICLES GENERATOR **/
     public static void fillVehicleList() {

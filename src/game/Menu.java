@@ -4,7 +4,13 @@ import customer.Customer;
 
 import java.util.Scanner;
 
+import static actions.BuyAd.internetAd;
+import static actions.BuyAd.newspaperAd;
+import static actions.BuyVehicle.buyVehicle;
+import static actions.FixVehicle.fixVehicle;
+import static actions.SellVehicle.sellVehicle;
 import static game.Data.currentPlayer;
+
 
 public abstract class Menu {
 
@@ -12,7 +18,7 @@ public abstract class Menu {
     static Byte playerChoice = null;
     public static int getPlayerSelection(int numOptions) {
         Scanner playerInput = new Scanner(System.in);
-        System.out.println("Ruch gracza " + currentPlayer.name + ": ");
+        System.out.println("[Runda " + Data.round + "] Ruch gracza " + currentPlayer.name + ": ");
         try {
             playerChoice = playerInput.nextByte();
             if (playerChoice <= 0 || playerChoice > numOptions) {
@@ -57,7 +63,7 @@ public abstract class Menu {
         System.out.println("2. Kup pojazd");
         switch (getPlayerSelection(2)) {
             case 1 -> main();
-            case 2 -> Actions.buyVehicle();
+            case 2 -> buyVehicle();
         }
     }
 
@@ -80,8 +86,8 @@ public abstract class Menu {
         System.out.println("3. Napraw pojazd");
         switch (getPlayerSelection(3)) {
             case 1 -> main();
-            case 2 -> Actions.sellVehicle();
-            case 3 -> System.out.println("3. Napraw pojazd");
+            case 2 -> sellVehicle();
+            case 3 -> fixVehicle();
         }
     }
 
@@ -102,7 +108,7 @@ public abstract class Menu {
         }
     }
 
-    static void printCustomers() {
+    public static void printCustomers() {
         for (int i = 0; i < Data.availableCustomers.size(); i++) {
             Customer currentCustomer = Data.availableCustomers.get(i);
             System.out.println("Klient " + (i + 1));
@@ -112,7 +118,7 @@ public abstract class Menu {
     }
 
     // 4. BUY AN AD
-    static void buyAd() {
+    public static void buyAd() {
         System.out.println("***");
         System.out.println("Wykup reklamę");
         System.out.println("Ogłoszenie w lokalnej gazecie powoduje dopływ losowej grupy kilku nowych klientów");
@@ -126,8 +132,8 @@ public abstract class Menu {
         System.out.println("3. Reklama w Internecie");
         switch (getPlayerSelection(3)) {
             case 1 -> main();
-            case 2 -> Actions.newspaperAd();
-            case 3 -> Actions.internetAd();
+            case 2 -> newspaperAd();
+            case 3 -> internetAd();
         }
     }
 

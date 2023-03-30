@@ -1,60 +1,21 @@
-package game;
+package actions;
 
 import customer.Customer;
+import game.Data;
+import game.Menu;
 import player.Player;
 import vehicles.Vehicle;
 
 import java.util.Objects;
 import java.util.Scanner;
 
+import static actions.CarWashAndTax.carWashAndTax;
+import static actions.EndTurn.endTurn;
 import static game.Data.currentPlayer;
 import static game.Data.round;
 
-public abstract class Actions {
-    static final double INTEREST_RATE = 1.2;
-    private static final double TAX_VALUE = 0.02;
-    private static final int CAR_WASH_PRICE = 100;
-
-    /**
-     * BUY A VEHICLE
-     **/
-    static void buyVehicle() {
-        Vehicle vehicleToBuy;
-        Scanner playerScanner = new Scanner(System.in);
-        System.out.println("Podaj numer pojazdu do kupienia (1 - 12): ");
-        try {
-            int vehicleNumber = playerScanner.nextByte();
-            // Number out of range
-            if (vehicleNumber <= 0 || vehicleNumber > 12) {
-                buyVehicle();
-            }
-            // Number in range
-            vehicleToBuy = Data.availableVehicles.get(vehicleNumber - 1);
-            if (currentPlayer.money < vehicleToBuy.value) {
-                System.out.println("Brak wystarczającej ilości gotówki!");
-                Menu.showAvailableVehicles();
-            } else {
-                currentPlayer.ownedVehicles.add(vehicleToBuy);
-                currentPlayer.money -= vehicleToBuy.value - carWashAndTax(vehicleToBuy);
-                Data.availableVehicles.remove(vehicleToBuy);
-                Data.fillVehicleList();
-                String receipt = "Kupiono " + vehicleToBuy.color + " " + vehicleToBuy.brand + " " + vehicleToBuy.segment + " za " + vehicleToBuy.value + "zł";
-                String additionalCosts = "Opłacono myjnię (" + CAR_WASH_PRICE + "zł) i podatek (" + (int) (vehicleToBuy.value * TAX_VALUE) + "zł)";
-                System.out.println(receipt);
-                System.out.println(additionalCosts);
-                currentPlayer.transactionHistory.add(receipt);
-                currentPlayer.transactionHistory.add(additionalCosts);
-                endTurn();
-            }
-        } catch (Exception e) {
-            buyVehicle();
-        }
-    }
-
-    /**
-     * SELL A VEHICLE
-     **/
-    static void sellVehicle() {
+public abstract class SellVehicle implements TransactionSettings {
+    public static void sellVehicle() {
         Vehicle vehicleToSell = null;
         // Select vehicle
         if (currentPlayer.ownedVehicles.size() == 0) {
@@ -95,12 +56,13 @@ public abstract class Actions {
                 currentPlayer.ownedVehicles.remove(vehicleToSell);
                 Data.availableCustomers.remove(selectedCustomer);
                 Customer.generateCustomer(2);
-                Actions.endTurn();
+                endTurn();
                 Menu.main();
             }
         }
     }
 
+    // Select a customer
     static Customer selectCustomer() {
         // Select customer
         Menu.printCustomers();
@@ -121,7 +83,7 @@ public abstract class Actions {
         return selectedCustomer;
     }
 
-        // Check if customer can buy the vehicle
+    // Check if selected customer can buy the vehicle
     static Boolean customerCanBuy(Customer customer, Vehicle vehicle) {
         if (customer.budget < vehicle.value * TAX_VALUE) {
             System.out.println("Klient ma za mały budżet");
@@ -151,50 +113,4 @@ public abstract class Actions {
         }
     }
 
-    /** CAR WASH AND TAX **/
-    static Integer carWashAndTax(Vehicle vehicle) {
-        return (int) (vehicle.value * TAX_VALUE) + CAR_WASH_PRICE;
-    }
-
-    /** BUY ADS **/
-    public static void newspaperAd() {
-        if (currentPlayer.money < 1000) {
-            System.out.println("Brak środków na reklamę w gazecie");
-            Menu.buyAd();
-        }
-        currentPlayer.money -= 1000;
-        int newCustomers = (int) (Math.random() * 5);
-        Customer.generateCustomer(newCustomers);
-        System.out.println("Reklama przyciągnęła " + newCustomers + " nowych klientów");
-        currentPlayer.transactionHistory.add("Wydano 1000zł na reklamę w lokalnej gazecie");
-        endTurn();
-    }
-
-    public static void internetAd() {
-        if (currentPlayer.money < 200) {
-            System.out.println("Brak środków na reklamę w internecie");
-            Menu.buyAd();
-            endTurn();
-        }
-        currentPlayer.money -= 200;
-        Customer.generateCustomer(1);
-        System.out.println("Reklama przyciągnęła nowego klienta");
-        currentPlayer.transactionHistory.add("Wydano 200 na reklamę w Internecie");
-        endTurn();
-    }
-
-
-    /** END TURN AND CHANGE CURRENT PLAYER **/
-    static void endTurn() {
-        int playerIndex = Data.players.indexOf(currentPlayer);
-        if (Data.players.size() >= 2) {
-            // if last player, start again, and make this a new round
-            if (playerIndex == Data.players.size() - 1) {
-                currentPlayer = Data.players.get(0);
-            } else {
-                currentPlayer = Data.players.get(playerIndex + 1);
-            }
-        }
-        Menu.main();
-    }
 }

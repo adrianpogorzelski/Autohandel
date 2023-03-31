@@ -1,4 +1,5 @@
 package customer;
+import vehicles.Truck;
 import vehicles.Vehicle;
 import game.Data;
 
@@ -10,6 +11,7 @@ public class Customer {
     public static final Integer CUSTOMER_BUDGET = 200000;
     public static final double CHANCE_TO_BUY_DAMAGED_CAR = 0.05;
     public static final double CHANCE_TO_BUY_DAMAGED_SUSPENSION = 0.2;
+    public final int minimumCargoSpace;
 
     public String name;
     public Integer budget;
@@ -34,6 +36,7 @@ public class Customer {
         this.canBuyDamagedCar = (Math.random() < CHANCE_TO_BUY_DAMAGED_CAR);
         this.canBuyDamagedSuspension = (Math.random() < CHANCE_TO_BUY_DAMAGED_SUSPENSION);
         this.interestedIn = vehicleTypes[(int) (Math.random() * vehicleTypes.length)];
+        this.minimumCargoSpace = (int) (Math.random() * Truck.MAX_CARGO_SPACE);
     }
 
     /** CUSTOMERS GENERATOR **/
@@ -46,7 +49,10 @@ public class Customer {
 
     /** PRINT DETAILS **/
     public void introduce() {
-        System.out.println(this.name + ", poszukuje " + this.interestedIn + " marki " + this.favoriteBrands.get(0) + " lub " + this.favoriteBrands.get(1));
+        System.out.println("\n" + this.name + ", poszukuje " + this.interestedIn + " marki " + this.favoriteBrands.get(0) + " lub " + this.favoriteBrands.get(1));
+        if (this.interestedIn == "samochód dostawczy") {
+            System.out.println("Minimalna pojemność: " + (Truck.MIN_CARGO_SPACE + this.minimumCargoSpace) + "m3");
+        }
         System.out.println("Dysponuje budżetem " + this.budget + "zł");
         if (this.canBuyDamagedCar) {
             System.out.println("Może kupić niesprawny pojazd");

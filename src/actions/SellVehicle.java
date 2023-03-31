@@ -4,6 +4,7 @@ import customer.Customer;
 import game.Data;
 import game.Menu;
 import player.Player;
+import vehicles.Truck;
 import vehicles.Vehicle;
 
 import java.util.Scanner;
@@ -92,6 +93,13 @@ public abstract class SellVehicle implements TransactionSettings {
         if (customer.interestedIn.contains(vehicle.brand)) {
             System.out.println("Klient nie chce tego typu pojazdu\n");
             return false;
+        }
+        if (vehicle instanceof Truck) {
+            Truck truck = (Truck) vehicle;
+            if (customer.interestedIn.equals("samochód dostawczy") && truck.cargoSpace < customer.minimumCargoSpace) {
+                System.out.println("Za mała pojemność");
+                return false;
+            }
         }
         if (!customer.favoriteBrands.contains(vehicle.brand)) {
             System.out.println("Klient nie jest zainteresowany tą marką\n");

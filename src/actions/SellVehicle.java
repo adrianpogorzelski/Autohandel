@@ -20,7 +20,8 @@ public abstract class SellVehicle implements TransactionSettings {
         if (currentPlayer.ownedVehicles.size() == 0) {
             System.out.println("Brak pojazdów do sprzedania");
             Menu.main();
-        } else if (currentPlayer.ownedVehicles.size() == 1) {
+        }
+        if (currentPlayer.ownedVehicles.size() == 1) {
             vehicleToSell = currentPlayer.ownedVehicles.get(0);
         } else {
             Scanner playerScanner = new Scanner(System.in);
@@ -32,7 +33,7 @@ public abstract class SellVehicle implements TransactionSettings {
                     sellVehicle();
                 }
                 // Number in range
-                vehicleToSell = Data.availableVehicles.get(vehicleNumber - 1);
+                vehicleToSell = currentPlayer.ownedVehicles.get(vehicleNumber - 1);
             } catch (Exception e) {
                 sellVehicle();
             }
@@ -41,24 +42,23 @@ public abstract class SellVehicle implements TransactionSettings {
         assert vehicleToSell != null;
         if (!customerCanBuy(selectedCustomer, vehicleToSell)) {
             Menu.showOwnedVehicles();
+        }
+        int sellingPrice = (int) (vehicleToSell.value * INTEREST_RATE);
+        currentPlayer.money += (sellingPrice - carWashAndTax(vehicleToSell));
+        String receipt = "Sprzedano " + vehicleToSell.color + " " + vehicleToSell.brand + " " + vehicleToSell.segment + " za " + sellingPrice + "zł";
+        System.out.println(receipt);
+        String additionalCosts = "Opłacono myjnię (" + CAR_WASH_PRICE + "zł) i podatek (" + (int) (vehicleToSell.value * TAX_VALUE) + "zł)";
+        System.out.println(additionalCosts);
+        if (currentPlayer.money >= Player.INITIAL_MONEY * 2) {
+            System.out.println("Gratulacje! " + currentPlayer.name + " wygrywa grę w " + round + " ruchach!");
         } else {
-            int sellingPrice = (int) (vehicleToSell.value * INTEREST_RATE);
-            currentPlayer.money += (sellingPrice - carWashAndTax(vehicleToSell));
-            String receipt = "Sprzedano " + vehicleToSell.color + " " + vehicleToSell.brand + " " + vehicleToSell.segment + " za " + sellingPrice + "zł";
-            System.out.println(receipt);
-            String additionalCosts = "Opłacono myjnię (" + CAR_WASH_PRICE + "zł) i podatek (" + (int) (vehicleToSell.value * TAX_VALUE) + "zł)";
-            System.out.println(additionalCosts);
-            if (currentPlayer.money >= Player.INITIAL_MONEY * 2) {
-                System.out.println("Gratulacje! " + currentPlayer.name + " wygrywa grę w " + round + " ruchach!");
-            } else {
-                currentPlayer.transactionHistory.add(receipt);
-                currentPlayer.transactionHistory.add(additionalCosts);
-                currentPlayer.ownedVehicles.remove(vehicleToSell);
-                Data.availableCustomers.remove(selectedCustomer);
-                Customer.generateCustomer(2);
-                endTurn();
-                Menu.main();
-            }
+            currentPlayer.transactionHistory.add(receipt);
+            currentPlayer.transactionHistory.add(additionalCosts);
+            currentPlayer.ownedVehicles.remove(vehicleToSell);
+            Data.availableCustomers.remove(selectedCustomer);
+            Customer.generateCustomer(2);
+            endTurn();
+            Menu.main();
         }
     }
 
@@ -88,29 +88,23 @@ public abstract class SellVehicle implements TransactionSettings {
         if (customer.budget < vehicle.value * TAX_VALUE) {
             System.out.println("Klient ma za mały budżet\n");
             return false;
-        } else if (customer.interestedIn.contains(vehicle.brand)) {
+        }
+        if (customer.interestedIn.contains(vehicle.brand)) {
             System.out.println("Klient nie chce tego typu pojazdu\n");
             return false;
-        } else if (!customer.favoriteBrands.contains(vehicle.brand)) {
+        }
+        if (!customer.favoriteBrands.contains(vehicle.brand)) {
             System.out.println("Klient nie jest zainteresowany tą marką\n");
             return false;
-        } else if (vehicle.workingParts.containsValue(false)) {
-            if (!customer.canBuyDamagedCar) {
-                System.out.println("Klient nie chce uszkodzonego pojazdu\n");
-                return false;
-            } else {
-                return true;
-            }
-        } else if (!vehicle.workingParts.get("suspension")) {
-            if (!customer.canBuyDamagedSuspension) {
-                System.out.println("Klient nie chce uszkodzonego pojazdu\n");
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return true;
         }
+        if (!vehicle.workingParts.get("zawieszenie") && !customer.canBuyDamagedSuspension) {
+            System.out.println("Klient nie chce uszkodzonego pojazdu\n");
+            return false;
+        }
+        if (vehicle.workingParts.containsValue(false) && !customer.canBuyDamagedCar) {
+            System.out.println("Klient nie chce uszkodzonego pojazdu\n");
+            return false;
+        }
+        return true;
     }
-
 }

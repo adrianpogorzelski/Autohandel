@@ -1,6 +1,5 @@
 package vehicles;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -21,6 +20,7 @@ public abstract class Vehicle {
     static final public String[] brands = {"Omega Romeo", "FLAT", "Luxus", "Poorshe", "Fiord", "Leopard", "FolkWagon"};
     final public String[] colors = {"Brązowy", "Czerwony", "Czarny", "Fioletowy", "Granatowy", "Niebieski", "Pomarańczowy", "Różowy", "Zielony", "Żółty"};
     final public static String[] segments = {"Budget", "Standard", "Premium"};
+    public static final String[] vehicleParts =  {"hamulce", "zawieszenie", "silnik", "karoseria", "skrzynia biegów"};
 
     /** VARIABLES **/
     public String type;
@@ -39,7 +39,7 @@ public abstract class Vehicle {
         mileage = generateMileage();
         color = colors[(int) (Math.random() * colors.length)];
         segment = segment;
-        for (String s : Arrays.asList("hamulce", "zawieszenie", "silnik", "karoseria", "skrzynia biegów")) {
+        for (String s : vehicleParts) {
             workingParts.put(s, Math.random() > CHANCE_TO_HAVE_DAMAGED_PART);
         }
     }

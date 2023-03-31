@@ -28,8 +28,12 @@ public abstract class FixVehicle {
         if (Math.random() > selectedMechanic.chanceToFix) {
             System.out.println("Zadanie przerosło mechanika... Konieczna była interwencja profesjonalisty");
             totalCost = totalCost + calculateCost(mechanics.get(0));
-        } else {
-            vehicleToFix.workingParts.put(selectedPart, true);
+        }
+        System.out.println("Sukces!");
+        vehicleToFix.workingParts.put(selectedPart, true);
+        if (Math.random() < selectedMechanic.chanceToBreak) {
+            System.out.println("Coś jeszcze zaczęło dziwnie stukać...");
+            breakRandomPart();
         }
         System.out.println(">> Zapłacono " + totalCost + " za naprawę");
         endTurn();
@@ -149,5 +153,13 @@ public abstract class FixVehicle {
 
         totalCost = (int) (repairPrices.get(selectedPart) * mechanic.priceModifier);
         return totalCost;
+    }
+
+    private static void breakRandomPart() {
+        String randomPart = Vehicle.vehicleParts[(int) (Math.random() * vehicleToFix.workingParts.size()) - 1];
+        if (!vehicleToFix.workingParts.get(randomPart)) {
+            breakRandomPart();
+        }
+        vehicleToFix.workingParts.put(randomPart, false);
     }
 }

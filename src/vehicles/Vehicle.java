@@ -33,6 +33,7 @@ public abstract class Vehicle {
     public HashMap<String, Boolean> workingParts = new HashMap<>();
     public LinkedList<String> repairHistory;
     public int totalRepairCost;
+    public int totalCarWashCost;
 
     /** CONSTRUCTOR **/
     public Vehicle () {
@@ -47,6 +48,7 @@ public abstract class Vehicle {
         }
         repairHistory = new LinkedList<>();
         totalRepairCost = 0;
+        totalCarWashCost = 0;
     }
 
     /** RANDOM CAR VALUE GENERATOR **/

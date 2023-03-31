@@ -1,6 +1,7 @@
 package vehicles;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 
 public abstract class Vehicle {
@@ -30,6 +31,8 @@ public abstract class Vehicle {
     public String color;
     public String segment = segments[(int) (Math.random() * segments.length)];
     public HashMap<String, Boolean> workingParts = new HashMap<>();
+    public LinkedList<String> repairHistory;
+    public int totalRepairCost;
 
     /** CONSTRUCTOR **/
     public Vehicle () {
@@ -42,6 +45,8 @@ public abstract class Vehicle {
         for (String s : vehicleParts) {
             workingParts.put(s, Math.random() > CHANCE_TO_HAVE_DAMAGED_PART);
         }
+        repairHistory = new LinkedList<>();
+        totalRepairCost = 0;
     }
 
     /** RANDOM CAR VALUE GENERATOR **/

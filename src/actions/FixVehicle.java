@@ -35,7 +35,12 @@ public abstract class FixVehicle {
             System.out.println("Coś jeszcze zaczęło dziwnie stukać...");
             breakRandomPart();
         }
-        System.out.println(">> Zapłacono " + totalCost + " za naprawę");
+        String receipt = "Zapłacono " + totalCost + " za naprawę: " + selectedPart + " w: " + vehicleToFix.color + " " + vehicleToFix.brand;
+        System.out.println(">> " + receipt);
+        currentPlayer.transactionHistory.add(receipt);
+        vehicleToFix.repairHistory.add(receipt);
+        currentPlayer.money -= totalCost;
+        vehicleToFix.totalRepairCost += totalCost;
         endTurn();
     }
 

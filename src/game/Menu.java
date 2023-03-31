@@ -2,6 +2,7 @@ package game;
 
 import actions.TransactionSettings;
 import customer.Customer;
+import vehicles.Vehicle;
 
 import java.util.Scanner;
 
@@ -70,12 +71,55 @@ public abstract class Menu {
         } else {
             System.out.println("Brak posiadanych pojazdów");
         }
-        System.out.println("[1] Powrót | [2] Sprzedaj pojazd | [3] Napraw pojazd");
-        switch (getPlayerSelection(3)) {
+        System.out.println("[1] Powrót | [2] Sprzedaj pojazd | [3] Napraw pojazd | [4] Historia napraw | [5] Historia wizyt w myjni");
+        switch (getPlayerSelection(4)) {
             case 1 -> main();
             case 2 -> sellVehicle();
             case 3 -> fixVehicle();
+            case 4 -> repairHistory();
+            case 5 -> carWashHistory();
         }
+    }
+
+    // Check repair history and costs
+    private static void repairHistory() {
+        Vehicle vehicleToCheck = null;
+        // Select vehicle
+        if (currentPlayer.ownedVehicles.size() == 0) {
+            System.out.println("Brak pojazdów do sprawdzenia");
+            Menu.main();
+        }
+        if (currentPlayer.ownedVehicles.size() == 1) {
+            vehicleToCheck = currentPlayer.ownedVehicles.get(0);
+        } else {
+            Scanner playerScanner = new Scanner(System.in);
+            System.out.println("Podaj numer pojazdu do sprawdzenia (1 - " + currentPlayer.ownedVehicles.size() + "): ");
+            try {
+                int vehicleNumber = playerScanner.nextByte();
+                // Number out of range
+                if (vehicleNumber <= 0 || vehicleNumber > currentPlayer.ownedVehicles.size()) {
+                    repairHistory();
+                }
+                // Number in range
+                vehicleToCheck = currentPlayer.ownedVehicles.get(vehicleNumber - 1);
+            } catch (Exception e) {
+                repairHistory();
+            }
+        }
+        for (String item : vehicleToCheck.repairHistory) {
+            System.out.println(item);
+        }
+        System.out.println("Łączny koszt: " + vehicleToCheck.totalRepairCost + "zł\n");
+        System.out.println("[1] Menu główne | [2] Pokaż posiadane pojazdy");
+        switch (getPlayerSelection(2)) {
+            case 1 -> main();
+            case 2 -> showOwnedVehicles();
+        }
+    }
+
+    // Car wash history and costs
+    private static void carWashHistory() {
+        System.out.println("Car wash");
     }
 
     /** 3. CUSTOMERS **/

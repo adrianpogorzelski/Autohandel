@@ -156,7 +156,21 @@ public abstract class FixVehicle {
         repairPrices.put("karoseria", 500);
         repairPrices.put("skrzynia biegów", 500);
 
-        totalCost = (int) (repairPrices.get(selectedPart) * mechanic.priceModifier);
+        HashMap<String, Double> brandModifier = new HashMap<>();
+        brandModifier.put("Poorshe", 0.5);
+        brandModifier.put("FolkWagon", 0.8);
+        brandModifier.put("FLAT", 1.0);
+        brandModifier.put("Fiord", 1.0);
+        brandModifier.put("Leopard", 1.2);
+        brandModifier.put("Omega Romeo", 1.5);
+        brandModifier.put("Luxus", 2.0);
+
+        HashMap<String, Double> segmentModifier = new HashMap<>();
+        segmentModifier.put("Budget", 1.0);
+        segmentModifier.put("Standard", 1.5);
+        segmentModifier.put("Premium", 2.0);
+
+        totalCost = (int) (repairPrices.get(selectedPart) * mechanic.priceModifier * brandModifier.get(vehicleToFix.brand) * segmentModifier.get(vehicleToFix.segment));
         return totalCost;
     }
 

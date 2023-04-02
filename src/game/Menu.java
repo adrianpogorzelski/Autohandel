@@ -38,11 +38,11 @@ public abstract class Menu {
         System.out.println("Ruch gracza " + currentPlayer.name);
         System.out.println("\n[1] Przejrzyj pojazdy do kupienia | [2] Przejrzyj posiadane pojazdy | [3] Klienci | [4] Stan konta | [5] Historia transakcji");
         switch (getPlayerSelection(5)) {
-            case 1 -> showAvailableVehicles();
-            case 2 -> showOwnedVehicles();
-            case 3 -> showCustomers();
-            case 4 -> showAccountBalance();
-            case 5 -> showTransactionHistory();
+            case 1: showAvailableVehicles(); break;
+            case 2: showOwnedVehicles(); break;
+            case 3: showCustomers(); break;
+            case 4: showAccountBalance(); break;
+            case 5: showTransactionHistory(); break;
         }
     }
 
@@ -55,8 +55,8 @@ public abstract class Menu {
         }
         System.out.println("[1] Powrót | [2] Kup pojazd");
         switch (getPlayerSelection(2)) {
-            case 1 -> main();
-            case 2 -> buyVehicle();
+            case 1: main(); break;
+            case 2: buyVehicle(); break;
         }
     }
 
@@ -73,11 +73,11 @@ public abstract class Menu {
         }
         System.out.println("[1] Powrót | [2] Sprzedaj pojazd | [3] Napraw pojazd | [4] Historia napraw | [5] Historia wizyt w myjni");
         switch (getPlayerSelection(5)) {
-            case 1 -> main();
-            case 2 -> sellVehicle();
-            case 3 -> fixVehicle();
-            case 4 -> repairHistory();
-            case 5 -> carWashHistory();
+            case 1: main(); break;
+            case 2: sellVehicle(); break;
+            case 3: fixVehicle(); break;
+            case 4: repairHistory(); break;
+            case 5: carWashHistory(); break;
         }
     }
 
@@ -113,8 +113,8 @@ public abstract class Menu {
         System.out.println("Łączny koszt: " + vehicleToCheck.totalRepairCost + "zł\n");
         System.out.println("[1] Menu główne | [2] Pokaż posiadane pojazdy");
         switch (getPlayerSelection(2)) {
-            case 1 -> main();
-            case 2 -> showOwnedVehicles();
+            case 1: main(); break;
+            case 2: showOwnedVehicles(); break;
         }
     }
 
@@ -147,8 +147,8 @@ public abstract class Menu {
         System.out.println("Łączny koszt wizyt w myjni: " + vehicleToCheck.totalCarWashCost + "zł\n");
         System.out.println("[1] Menu główne | [2] Pokaż posiadane pojazdy");
         switch (getPlayerSelection(2)) {
-            case 1 -> main();
-            case 2 -> showOwnedVehicles();
+            case 1: main(); break;
+            case 2: showOwnedVehicles(); break;
         }
     }
 
@@ -158,9 +158,9 @@ public abstract class Menu {
         printCustomers();
         System.out.println("[1] Powrót | [2] Pokaż posiadane pojazdy | [3] Zainwestuj w reklamę");
         switch (getPlayerSelection(3)) {
-            case 1 -> main();
-            case 2 -> showOwnedVehicles();
-            case 3 -> buyAd();
+            case 1: main(); break;
+            case 2: showOwnedVehicles(); break;
+            case 3: buyAd(); break;
         }
     }
 
@@ -181,9 +181,9 @@ public abstract class Menu {
         System.out.println("Koszt: " + TransactionSettings.INTERNET_AD_COST+ "zł\n");
         System.out.println("[1] Powrót | [2] Ogłoszenie w gazecie | [3] Reklama w Internecie");
         switch (getPlayerSelection(3)) {
-            case 1 -> main();
-            case 2 -> newspaperAd();
-            case 3 -> internetAd();
+            case 1: main(); break;
+            case 2: newspaperAd(); break;
+            case 3: internetAd(); break;
         }
     }
 
@@ -193,7 +193,7 @@ public abstract class Menu {
         System.out.println(currentPlayer.money + "zł\n");
         System.out.println("[1] Powrót");
         switch (getPlayerSelection(1)) {
-            case 1 -> main();
+            case 1: main(); break;
         }
     }
 
@@ -205,7 +205,7 @@ public abstract class Menu {
         }
         System.out.println("\n[1] Powrót");
         switch (getPlayerSelection(1)) {
-            case 1 -> main();
+            case 1: main(); break;
         }
     }
 }
